@@ -9,18 +9,18 @@ export default function NoticeBoard() {
   const notices = noticesByTab[activeTab];
 
   return (
-    <div id="notices" className="mx-auto max-w-[1280px] px-[30px] py-[78px]">
-      <div className="grid grid-cols-[1.5fr_1fr] items-start gap-[30px]">
+    <div id="notices" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-[30px]">
         <div>
           <div className="mb-[22px] flex flex-col gap-2">
             <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
               NOTICE BOARD
             </div>
-            <div className="font-np text-[28px] font-extrabold text-[#1B262C]">
+            <div className="font-np text-[22px] font-extrabold text-[#1B262C] sm:text-[28px]">
               सूचना तथा जानकारी
             </div>
           </div>
-          <div className="mb-1.5 flex gap-1 border-b-2 border-[#eef0f3]">
+          <div className="mb-1.5 flex gap-1 overflow-x-auto border-b-2 border-[#eef0f3]">
             {noticeTabLabels.map((label, i) => {
               const isActive = i === activeTab;
               return (
@@ -31,7 +31,7 @@ export default function NoticeBoard() {
                     color: isActive ? "#0F4C75" : "#7a818b",
                     borderBottomColor: isActive ? "#0F4C75" : "transparent",
                   }}
-                  className="font-np -mb-0.5 border-b-[3px] px-4 py-[11px] text-[14.5px] font-semibold"
+                  className="font-np -mb-0.5 flex-none whitespace-nowrap border-b-[3px] px-4 py-[11px] text-[14.5px] font-semibold"
                 >
                   {label}
                 </button>
