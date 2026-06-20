@@ -9,43 +9,45 @@ export default function Departments() {
   const bedsLabel = activeDept.beds > 0 ? `शय्या: ${activeDept.beds}` : "दैनिक सेवा";
 
   return (
-    <div id="departments" className="mx-auto max-w-[1280px] px-[30px] py-[78px]">
+    <div id="departments" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
       <div className="mb-10 flex flex-col items-center gap-2 text-center">
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
           CLINICAL DEPARTMENTS
         </div>
-        <div className="font-np text-[31px] font-extrabold text-[#1B262C]">विभागहरू</div>
+        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">विभागहरू</div>
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
-      <div className="grid grid-cols-[320px_1fr] items-start gap-[26px]">
-        <div className="overflow-hidden rounded-md border border-[#e4e7ec]">
-          {departments.map((d, i) => {
-            const isActive = i === activeIndex;
-            return (
-              <button
-                key={d.np}
-                onClick={() => setActiveIndex(i)}
-                style={{
-                  background: isActive ? "#EAF4FC" : "#fff",
-                  borderLeftColor: isActive ? "#0F4C75" : "transparent",
-                }}
-                className="flex w-full flex-col border-b border-[#eef0f3] border-l-[3px] px-[18px] py-3.5 text-left"
-              >
-                <span
-                  style={{ color: isActive ? "#0F4C75" : "#1B262C" }}
-                  className="font-np text-[15px] font-semibold"
+      <div className="grid grid-cols-1 items-start gap-[26px] lg:grid-cols-[320px_1fr]">
+        <div className="overflow-x-auto rounded-md border border-[#e4e7ec] lg:overflow-hidden">
+          <div className="flex lg:block">
+            {departments.map((d, i) => {
+              const isActive = i === activeIndex;
+              return (
+                <button
+                  key={d.np}
+                  onClick={() => setActiveIndex(i)}
+                  style={{
+                    background: isActive ? "#EAF4FC" : "#fff",
+                    borderLeftColor: isActive ? "#0F4C75" : "transparent",
+                  }}
+                  className="flex w-[170px] flex-none flex-col border-b border-r border-[#eef0f3] border-l-[3px] px-[18px] py-3.5 text-left lg:w-full lg:border-r-0"
                 >
-                  {d.np}
-                </span>
-                <span className="font-en mt-px text-[11px] text-[#98a0aa]">{d.en}</span>
-              </button>
-            );
-          })}
+                  <span
+                    style={{ color: isActive ? "#0F4C75" : "#1B262C" }}
+                    className="font-np text-[15px] font-semibold"
+                  >
+                    {d.np}
+                  </span>
+                  <span className="font-en mt-px text-[11px] text-[#98a0aa]">{d.en}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <div className="rounded-md border border-[#e4e7ec] border-t-[3px] border-t-[#3282B8] bg-white px-8 py-[30px]">
+        <div className="rounded-md border border-[#e4e7ec] border-t-[3px] border-t-[#3282B8] bg-white px-5 py-6 sm:px-8 sm:py-[30px]">
           <div className="flex flex-wrap items-start justify-between gap-3.5">
             <div>
-              <div className="font-np text-[24px] font-extrabold text-[#3282B8]">
+              <div className="font-np text-[20px] font-extrabold text-[#3282B8] sm:text-[24px]">
                 {activeDept.np}
               </div>
               <div className="mt-0.5 text-[12.5px] font-semibold tracking-[1px] text-[#98a0aa]">
@@ -59,7 +61,7 @@ export default function Departments() {
           <p className="font-np mt-4 text-[14.5px] leading-[1.8] text-[#41474f]">
             {activeDept.desc}
           </p>
-          <div className="mt-5 grid grid-cols-2 gap-3.5">
+          <div className="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
             <div className="rounded bg-[#f6f7f9] px-4 py-3.5">
               <div className="text-[11px] font-bold tracking-[.8px] text-[#98a0aa]">
                 विभाग प्रमुख · HEAD

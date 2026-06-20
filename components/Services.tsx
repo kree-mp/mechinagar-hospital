@@ -3,15 +3,15 @@ import { services } from "@/data/services";
 export default function Services() {
   return (
     <div id="services" className="bg-[#f6f7f9]">
-      <div className="mx-auto max-w-[1280px] px-[30px] py-[78px]">
+      <div className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
         <div className="mb-10 flex flex-col items-center gap-2 text-center">
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
             WHAT WE OFFER
           </div>
-          <div className="font-np text-[31px] font-extrabold text-[#1B262C]">हाम्रा सेवाहरू</div>
+          <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">हाम्रा सेवाहरू</div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
-        <div className="grid grid-cols-3 gap-[18px]">
+        <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <div
               key={s.en}
