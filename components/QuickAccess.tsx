@@ -2,13 +2,13 @@ import { quickAccessCards } from "@/data/hospital";
 
 export default function QuickAccess() {
   return (
-    <div className="relative z-[5] mx-auto -mt-12 grid max-w-[1280px] grid-cols-4 gap-4 px-[30px]">
+    <div className="relative z-[5] mx-auto -mt-8 grid max-w-[1280px] grid-cols-2 gap-3 px-5 sm:-mt-12 sm:gap-4 sm:px-6 lg:grid-cols-4 lg:px-[30px]">
       {quickAccessCards.map((card) => (
         <a
           key={card.titleNp}
           href={card.href}
           style={{ borderTopColor: card.barColor }}
-          className="rounded-[4px] border border-[#e4e7ec] border-t-[3px] bg-white p-5 text-[#1B262C] shadow-[0_14px_32px_-18px_rgba(15,23,42,.4)] transition-transform hover:-translate-y-[3px]"
+          className="rounded-[4px] border border-[#e4e7ec] border-t-[3px] bg-white p-4 text-[#1B262C] shadow-[0_14px_32px_-18px_rgba(15,23,42,.4)] transition-transform sm:p-5 hover:-translate-y-[3px]"
         >
           <div className="font-np text-[16.5px] font-bold">{card.titleNp}</div>
           <div className="mt-[3px] text-[13px] text-[#7a818b]">{card.sub}</div>
