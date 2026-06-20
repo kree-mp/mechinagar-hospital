@@ -2,15 +2,15 @@ import { contactInfoCards } from "@/data/hospital";
 
 export default function Contact() {
   return (
-    <div id="contact" className="mx-auto max-w-[1280px] px-[30px] py-[78px]">
+    <div id="contact" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
       <div className="mb-10 flex flex-col items-center gap-2 text-center">
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
           GET IN TOUCH
         </div>
-        <div className="font-np text-[31px] font-extrabold text-[#1B262C]">सम्पर्क</div>
+        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">सम्पर्क</div>
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
-      <div className="grid grid-cols-[0.9fr_1.1fr] gap-[30px]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-[30px]">
         <div className="flex flex-col gap-4">
           {contactInfoCards.map((card, i) => (
             <div
@@ -48,7 +48,7 @@ export default function Contact() {
               [ GOOGLE MAP — embed location ]
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-3 p-5">
+          <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2">
             <input
               placeholder="नाम"
               className="font-np rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none"
@@ -59,9 +59,9 @@ export default function Contact() {
             />
             <textarea
               placeholder="तपाईंको सन्देश"
-              className="font-np col-span-2 h-[70px] resize-none rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none"
+              className="font-np col-span-1 h-[70px] resize-none rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none sm:col-span-2"
             />
-            <button className="font-np col-span-2 rounded-[5px] bg-[#0F4C75] py-3 text-[14.5px] font-bold text-white">
+            <button className="font-np col-span-1 rounded-[5px] bg-[#0F4C75] py-3 text-[14.5px] font-bold text-white sm:col-span-2">
               सन्देश पठाउनुहोस्
             </button>
           </div>

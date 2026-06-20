@@ -15,7 +15,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <div className="bg-[#1B262C] text-white">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-[1.4fr_1fr_1fr_1.1fr] gap-9 px-[30px] pb-[30px] pt-[54px]">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-9 px-5 pb-8 pt-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr] lg:px-[30px] lg:pb-[30px] lg:pt-[54px]">
         <div>
           <div className="flex items-center gap-3">
             <div className="h-[46px] w-[46px] rounded-full border-2 border-[#b7902f] bg-[repeating-linear-gradient(45deg,#d3aa55_0_7px,#c79e49_7px_14px)]" />
@@ -73,7 +73,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/[.12]">
-        <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-2.5 px-[30px] py-[18px] text-[12.5px] text-white/60">
+        <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-2.5 px-5 py-[18px] text-center text-[12.5px] text-white/60 sm:justify-between sm:px-6 sm:text-left lg:px-[30px]">
           <span className="font-np">
             © {hospital.copyrightYear} {hospital.nameNp}। सर्वाधिकार सुरक्षित।
           </span>
