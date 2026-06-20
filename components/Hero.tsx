@@ -17,7 +17,7 @@ export default function Hero() {
   const prev = () => setActive((i) => (i + heroSlides.length - 1) % heroSlides.length);
 
   return (
-    <div id="home" className="relative h-[530px] overflow-hidden bg-[#0b1320]">
+    <div id="home" className="relative h-[440px] overflow-hidden bg-[#0b1320] sm:h-[480px] lg:h-[530px]">
       {heroSlides.map((slide, i) => (
         <div
           key={slide.label}
@@ -25,30 +25,30 @@ export default function Hero() {
           style={{ opacity: i === active ? 1 : 0 }}
         >
           <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,#3a4250_0_17px,#454e5e_17px_34px)]" />
-          <div className="absolute left-[22px] top-[18px] font-mono text-[11px] tracking-wide text-white/50">
+          <div className="absolute left-[22px] top-[18px] hidden font-mono text-[11px] tracking-wide text-white/50 sm:block">
             [ {slide.label} — drop photo ]
           </div>
           <div className="absolute inset-0 bg-[linear-gradient(95deg,rgba(8,12,22,.85)_0%,rgba(8,12,22,.6)_42%,rgba(8,12,22,.12)_100%)]" />
-          <div className="absolute inset-y-0 left-0 flex max-w-[min(720px,56%)] flex-col justify-center px-[60px]">
-            <div className="font-np inline-flex self-start items-center gap-2 rounded-[3px] bg-[#D24B45] px-[13px] py-1.5 text-[11.5px] font-bold tracking-[1.5px] text-white">
+          <div className="absolute inset-y-0 left-0 flex w-full max-w-full flex-col justify-center px-5 sm:max-w-[min(720px,56%)] sm:px-[60px]">
+            <div className="font-np inline-flex self-start items-center gap-2 rounded-[3px] bg-[#D24B45] px-[13px] py-1.5 text-[10.5px] font-bold tracking-[1px] text-white sm:text-[11.5px] sm:tracking-[1.5px]">
               {slide.en}
             </div>
-            <div className="font-np mt-[18px] whitespace-pre-line text-[48px] font-extrabold leading-[1.18] text-white [text-shadow:0_2px_18px_rgba(0,0,0,.4)]">
+            <div className="font-np mt-[14px] whitespace-pre-line text-[28px] font-extrabold leading-[1.18] text-white [text-shadow:0_2px_18px_rgba(0,0,0,.4)] sm:mt-[18px] sm:text-[36px] lg:text-[48px]">
               {slide.title}
             </div>
-            <div className="mt-4 max-w-[540px] text-[16px] leading-[1.55] text-white/88">
+            <div className="mt-3 max-w-[540px] text-[14px] leading-[1.55] text-white/88 sm:mt-4 sm:text-[16px]">
               {slide.sub}
             </div>
-            <div className="mt-7 flex gap-3.5">
+            <div className="mt-5 flex flex-wrap gap-3 sm:mt-7 sm:gap-3.5">
               <a
                 href="#services"
-                className="font-np rounded bg-[#D24B45] px-[26px] py-[13px] text-[14.5px] font-bold text-white"
+                className="font-np rounded bg-[#D24B45] px-5 py-3 text-[13.5px] font-bold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px]"
               >
                 हाम्रा सेवाहरू
               </a>
               <a
                 href="#doctors"
-                className="font-np rounded border border-white/50 bg-white/[.12] px-[26px] py-[13px] text-[14.5px] font-semibold text-white"
+                className="font-np rounded border border-white/50 bg-white/[.12] px-5 py-3 text-[13.5px] font-semibold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px]"
               >
                 चिकित्सक खोज्नुहोस्
               </a>
@@ -60,19 +60,19 @@ export default function Hero() {
       <button
         onClick={prev}
         aria-label="Previous slide"
-        className="absolute bottom-[90px] left-[22px] flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-[#080c16]/40 text-[18px] text-white"
+        className="absolute bottom-[70px] left-[14px] flex h-9 w-9 items-center justify-center rounded-full border border-white/40 bg-[#080c16]/40 text-[16px] text-white sm:bottom-[90px] sm:left-[22px] sm:h-11 sm:w-11 sm:text-[18px]"
       >
         ‹
       </button>
       <button
         onClick={next}
         aria-label="Next slide"
-        className="absolute bottom-[90px] left-[74px] flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-[#080c16]/40 text-[18px] text-white"
+        className="absolute bottom-[70px] left-[58px] flex h-9 w-9 items-center justify-center rounded-full border border-white/40 bg-[#080c16]/40 text-[16px] text-white sm:bottom-[90px] sm:left-[74px] sm:h-11 sm:w-11 sm:text-[18px]"
       >
         ›
       </button>
 
-      <div className="absolute bottom-[100px] right-[34px] flex items-center gap-2">
+      <div className="absolute bottom-[24px] right-[18px] flex items-center gap-2 sm:bottom-[100px] sm:right-[34px]">
         {heroSlides.map((slide, i) => (
           <button
             key={slide.label}
