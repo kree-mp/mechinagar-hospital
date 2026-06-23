@@ -14,11 +14,17 @@ export default function Gallery() {
         <div className="grid grid-cols-2 gap-3 [grid-auto-rows:120px] sm:grid-cols-4 sm:gap-3.5 sm:[grid-auto-rows:168px]">
           {gallery.map((g) => (
             <div
-              key={g.label}
+              key={g.labelEn}
               style={{ gridColumn: g.col, gridRow: g.row }}
-              className="flex cursor-pointer items-center justify-center overflow-hidden rounded-md bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)] hover:brightness-95"
+              className="relative flex cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-md bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)] hover:brightness-95"
             >
-              <span className="font-mono text-[11px] text-[#98a0aa]">[ {g.label} ]</span>
+              {g.isVideo && (
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D24B45] text-white">
+                  ▶
+                </span>
+              )}
+              <span className="font-np text-[12.5px] font-semibold text-[#5b6168]">{g.labelNp}</span>
+              <span className="font-mono text-[10px] text-[#98a0aa]">[ {g.labelEn} ]</span>
             </div>
           ))}
         </div>
