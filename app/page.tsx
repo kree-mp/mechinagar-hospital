@@ -8,7 +8,9 @@ import Statistics from "@/components/Statistics";
 import Services from "@/components/Services";
 import Departments from "@/components/Departments";
 import Doctors from "@/components/Doctors";
+import ManagementCommittee from "@/components/ManagementCommittee";
 import NoticeBoard from "@/components/NoticeBoard";
+import ReportsPublications from "@/components/ReportsPublications";
 import NewsEvents from "@/components/NewsEvents";
 import PatientInfo from "@/components/PatientInfo";
 import Gallery from "@/components/Gallery";
@@ -29,7 +31,9 @@ export default function Home() {
       <Services />
       <Departments />
       <Doctors />
+      <ManagementCommittee />
       <NoticeBoard />
+      <ReportsPublications />
       <NewsEvents />
       <PatientInfo />
       <Gallery />
