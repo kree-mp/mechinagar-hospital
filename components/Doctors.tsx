@@ -1,26 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { doctors, doctorFilterChips } from "@/data/doctors";
+import { staff, staffFilterChips, type StaffCategory } from "@/data/staff";
 
 export default function Doctors() {
-  const [filter, setFilter] = useState<"all" | number>("all");
-  const filtered = filter === "all" ? doctors : doctors.filter((d) => d.deptId === filter);
+  const [filter, setFilter] = useState<"all" | StaffCategory>("all");
+  const filtered = filter === "all" ? staff : staff.filter((s) => s.category === filter);
 
   return (
-    <div id="doctors" className="bg-[#f6f7f9]">
+    <div id="staff" className="bg-[#f6f7f9]">
       <div className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
         <div className="mb-[30px] flex flex-col items-center gap-2 text-center">
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
-            FIND A DOCTOR &amp; OPD
+            OUR TEAM
           </div>
           <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-            हाम्रा चिकित्सकहरू
+            चिकित्सक तथा कर्मचारी विवरण
           </div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
         <div className="mb-[30px] flex flex-wrap justify-center gap-2">
-          {doctorFilterChips.map((chip) => {
+          {staffFilterChips.map((chip) => {
             const isActive = filter === chip.id;
             return (
               <button
@@ -38,26 +38,23 @@ export default function Doctors() {
             );
           })}
         </div>
-        <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
-          {filtered.map((d) => (
+        <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-4">
+          {filtered.map((s) => (
             <div
-              key={d.name}
-              className="overflow-hidden rounded-md border border-[#e4e7ec] bg-white hover:shadow-[0_14px_30px_-18px_rgba(15,23,42,.4)]"
+              key={s.name}
+              className="flex items-center gap-3.5 rounded-md border border-[#e4e7ec] bg-white px-4 py-3.5 hover:border-[#0F4C75] hover:shadow-[0_14px_30px_-18px_rgba(15,23,42,.4)]"
             >
-              <div className="flex h-[150px] items-center justify-center bg-[repeating-linear-gradient(45deg,#dfe3e8_0_14px,#e8ebee_14px_28px)]">
-                <span className="font-mono text-[10px] text-[#98a0aa]">[ PHOTO ]</span>
+              <div className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[repeating-linear-gradient(45deg,#dfe3e8_0_8px,#e8ebee_8px_16px)]">
+                <span className="font-np text-[14px] font-bold text-[#5b6168]">
+                  {s.name.replace("डा.", "").trim().charAt(0)}
+                </span>
               </div>
-              <div className="px-[18px] py-4">
-                <div className="font-np text-[16px] font-bold text-[#1B262C]">{d.name}</div>
-                <div className="text-[12px] font-semibold tracking-[.3px] text-[#98a0aa]">
-                  {d.qual}
+              <div>
+                <div className="font-np text-[14.5px] font-bold leading-[1.3] text-[#1B262C]">
+                  {s.name}
                 </div>
-                <div className="font-np mt-2 text-[13px] font-semibold text-[#D24B45]">
-                  {d.dept}
-                </div>
-                <div className="mt-2.5 flex items-center gap-1.5 border-t border-[#eef0f3] pt-2.5">
-                  <span className="font-np text-[12px] text-[#5b6168]">ओपीडी:</span>
-                  <span className="font-np text-[12px] font-semibold text-[#1B262C]">{d.opd}</span>
+                <div className="font-np mt-0.5 text-[12.5px] font-semibold text-[#D24B45]">
+                  {s.post}
                 </div>
               </div>
             </div>
