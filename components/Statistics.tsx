@@ -3,7 +3,7 @@ import { statistics } from "@/data/hospital";
 export default function Statistics() {
   return (
     <div className="bg-[#3282B8] text-white">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-5 px-5 py-9 sm:grid-cols-3 sm:px-6 lg:grid-cols-5 lg:px-[30px] lg:py-[46px]">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-5 px-5 py-9 sm:px-6 lg:grid-cols-4 lg:px-[30px] lg:py-[46px]">
         {statistics.map((stat, i) => (
           <div
             key={stat.en}

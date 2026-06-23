@@ -1,4 +1,4 @@
-import { aboutCopy, aboutGoals } from "@/data/hospital";
+import { aboutCopy, aboutGoals, aboutObjectives } from "@/data/hospital";
 
 export default function About() {
   return (
@@ -37,6 +37,19 @@ export default function About() {
               </div>
             ))}
           </div>
+          <div className="mt-[22px] rounded-[4px] border border-[#e4e7ec] bg-[#f6f7f9] p-4 px-[18px]">
+            <div className="font-np text-[14.5px] font-bold text-[#1B262C]">उद्देश्यहरू</div>
+            <ul className="mt-2.5 space-y-2">
+              {aboutObjectives.map((point) => (
+                <li key={point} className="flex items-start gap-2.5">
+                  <span className="font-extrabold text-[#D24B45]">›</span>
+                  <span className="font-np text-[13.5px] leading-[1.55] text-[#41474f]">
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
         <div className="relative mt-2 lg:mt-0">
           <div className="flex h-[220px] items-center justify-center rounded-md border border-[#d9dce1] bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)] sm:h-[300px] lg:h-[380px]">
@@ -46,10 +59,10 @@ export default function About() {
           </div>
           <div className="absolute -bottom-[14px] -left-[14px] rounded-md bg-[#3282B8] px-4 py-3 text-white shadow-[0_14px_30px_-14px_rgba(0,56,147,.6)] sm:-bottom-[18px] sm:-left-[18px] sm:px-6 sm:py-[18px]">
             <div className="text-[22px] font-extrabold tabular-nums sm:text-[30px]">
-              {aboutCopy.yearsBadge}
+              {aboutCopy.bedsBadge}
             </div>
             <div className="font-np text-[11px] opacity-85 sm:text-[12.5px]">
-              {aboutCopy.yearsBadgeLabelNp}
+              {aboutCopy.bedsBadgeLabelNp}
             </div>
           </div>
         </div>
