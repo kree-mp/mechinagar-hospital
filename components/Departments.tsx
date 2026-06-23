@@ -6,15 +6,16 @@ import { departments } from "@/data/departments";
 export default function Departments() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeDept = departments[activeIndex];
-  const bedsLabel = activeDept.beds > 0 ? `शय्या: ${activeDept.beds}` : "दैनिक सेवा";
 
   return (
     <div id="departments" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
       <div className="mb-10 flex flex-col items-center gap-2 text-center">
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
-          CLINICAL DEPARTMENTS
+          AVAILABLE HEALTH SERVICES
         </div>
-        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">विभागहरू</div>
+        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
+          उपलब्ध स्वास्थ्य सेवाहरू
+        </div>
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
       <div className="grid grid-cols-1 items-start gap-[26px] lg:grid-cols-[320px_1fr]">
@@ -55,35 +56,17 @@ export default function Departments() {
               </div>
             </div>
             <div className="font-np rounded-[20px] bg-[#E7F1FB] px-3.5 py-2 text-[13px] font-bold text-[#0F4C75]">
-              {bedsLabel}
+              {activeDept.availability}
             </div>
           </div>
           <p className="font-np mt-4 text-[14.5px] leading-[1.8] text-[#41474f]">
             {activeDept.desc}
           </p>
-          <div className="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-            <div className="rounded bg-[#f6f7f9] px-4 py-3.5">
-              <div className="text-[11px] font-bold tracking-[.8px] text-[#98a0aa]">
-                विभाग प्रमुख · HEAD
-              </div>
-              <div className="font-np mt-1 text-[15px] font-semibold text-[#1B262C]">
-                {activeDept.head}
-              </div>
-            </div>
-            <div className="rounded bg-[#f6f7f9] px-4 py-3.5">
-              <div className="text-[11px] font-bold tracking-[.8px] text-[#98a0aa]">
-                ओपीडी समय · OPD
-              </div>
-              <div className="font-np mt-1 text-[15px] font-semibold text-[#1B262C]">
-                {activeDept.opd}
-              </div>
-            </div>
-          </div>
           <div className="font-np mb-2.5 mt-[22px] text-[13px] font-bold text-[#1B262C]">
             उपलब्ध सेवाहरू
           </div>
           <div className="flex flex-wrap gap-2">
-            {activeDept.services.map((sv) => (
+            {activeDept.subServices.map((sv) => (
               <span
                 key={sv}
                 className="font-np rounded-[20px] border border-[#d9dce1] bg-white px-[13px] py-1.5 text-[13px] text-[#41474f]"

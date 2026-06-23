@@ -45,7 +45,7 @@ export default function Navbar() {
               onClick={() => setDeptMenuOpen((v) => !v)}
               className="font-np flex items-center gap-1.5 px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:text-white"
             >
-              विभागहरू <span className="text-[9px] opacity-80">▼</span>
+              सेवा विवरण <span className="text-[9px] opacity-80">▼</span>
             </button>
             {deptMenuOpen && (
               <div className="absolute left-0 top-full z-[60] grid w-[480px] grid-cols-2 gap-1 rounded-b-md border-t-[3px] border-[#3282B8] bg-white p-3 shadow-[0_18px_40px_-12px_rgba(0,0,0,.35)]">
@@ -129,7 +129,7 @@ export default function Navbar() {
             onClick={() => setMobileDeptOpen((v) => !v)}
             className="font-np flex w-full items-center justify-between border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA]"
           >
-            विभागहरू <span className="text-[9px] opacity-80">{mobileDeptOpen ? "▲" : "▼"}</span>
+            सेवा विवरण <span className="text-[9px] opacity-80">{mobileDeptOpen ? "▲" : "▼"}</span>
           </button>
           {mobileDeptOpen && (
             <div className="bg-black/[.15] px-5 py-2">
