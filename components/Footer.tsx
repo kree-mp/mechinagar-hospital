@@ -5,13 +5,6 @@ import {
   footerContact,
 } from "@/data/hospital";
 
-const socialLinks = [
-  { label: "f", href: "#" },
-  { label: "X", href: "#" },
-  { label: "in", href: "#" },
-  { label: "YT", href: "#" },
-];
-
 export default function Footer() {
   return (
     <div className="bg-[#1B262C] text-white">
@@ -28,17 +21,6 @@ export default function Footer() {
             मेचीनगर नगरपालिकाद्वारा सञ्चालित झापा जिल्लाको सार्वजनिक स्वास्थ्य संस्था। गुणस्तरीय र सुलभ
             स्वास्थ्य सेवामा प्रतिबद्ध।
           </p>
-          <div className="mt-4 flex gap-2">
-            {socialLinks.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                className="flex h-[30px] w-[30px] items-center justify-center rounded-[5px] bg-white/10 text-[13px] font-bold text-white"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
         </div>
         <div>
           <div className="font-np mb-[14px] text-[15px] font-bold">द्रुत पहुँच</div>
@@ -76,9 +58,6 @@ export default function Footer() {
         <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-2.5 px-5 py-[18px] text-center text-[12.5px] text-white/60 sm:justify-between sm:px-6 sm:text-left lg:px-[30px]">
           <span className="font-np">
             © {hospital.copyrightYear} {hospital.nameNp}। सर्वाधिकार सुरक्षित।
-          </span>
-          <span>
-            अन्तिम अपडेट: {hospital.bsDate} · कुल भ्रमण: {hospital.totalVisits}
           </span>
         </div>
       </div>

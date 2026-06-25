@@ -48,7 +48,6 @@ export default function Masthead() {
           झण्डा
         </div>
         <div className="text-left">
-          <div className="font-np text-[10.5px] text-[#5b6168] sm:text-[12.5px]">{hospital.bsDate}</div>
           <div className="mt-px text-[10.5px] text-[#1B262C] sm:text-[12.5px]">{adDate}</div>
           <div className="mt-0.5 text-[13px] font-extrabold tracking-[.5px] tabular-nums text-[#3282B8] sm:text-[19px]">
             {time}

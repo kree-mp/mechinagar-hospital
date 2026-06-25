@@ -9,9 +9,7 @@ export const hospital = {
   emergencyFull: "०२३-५९१४५९",
   address: "मेचीनगर नगरपालिका, वडा नं. १०, झापा, कोशी प्रदेश, नेपाल",
   officeHours: "बिहान ९:०० – साँझ ५:०० (ओपीडी सेवा)",
-  bsDate: "वि.सं. २०८३ असार ०३, बुधबार",
   copyrightYear: "२०८३",
-  totalVisits: "४२,८१९",
 };
 
 export interface NavItem {
