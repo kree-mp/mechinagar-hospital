@@ -62,7 +62,4 @@ galleryCategorySchema.plugin(softDeletePlugin);
 galleryCategorySchema.plugin(auditPlugin);
 
 export const GalleryCategory = (mongoose.models.GalleryCategory ??
-  mongoose.model<IGalleryCategory>(
-    'GalleryCategory',
-    galleryCategorySchema
-  )) as Model<IGalleryCategory>;
+  mongoose.model<IGalleryCategory>('GalleryCategory', galleryCategorySchema)) as Model<IGalleryCategory, object, IGalleryCategoryMethods>;

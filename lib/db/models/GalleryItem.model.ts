@@ -98,4 +98,4 @@ galleryItemSchema.plugin(auditPlugin);
 galleryItemSchema.plugin(publishablePlugin);
 
 export const GalleryItem = (mongoose.models.GalleryItem ??
-  mongoose.model<IGalleryItem>('GalleryItem', galleryItemSchema)) as Model<IGalleryItem>;
+  mongoose.model<IGalleryItem>('GalleryItem', galleryItemSchema)) as Model<IGalleryItem, object, IGalleryItemMethods>;

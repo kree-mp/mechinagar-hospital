@@ -113,6 +113,46 @@ export const newsEventPatchSchema = newsEventSchema.partial();
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
+// ── Gallery ────────────────────────────────────────────────────────────────────
+
+export const galleryCategorySchema = z.object({
+  slug: slug.optional(),
+  labelNp,
+  labelEn,
+  order: z.number().int(),
+});
+
+export const galleryItemSchema = z.object({
+  category: z.string().min(1, 'Category is required'),
+  labelNp: z.string().min(1, 'Nepali label is required').max(150),
+  labelEn: z.string().min(1, 'English label is required').max(150),
+  media: cloudinaryFile,
+  thumbnail: cloudinaryFile.nullable(),
+  isVideo: z.boolean(),
+  col: z.string().max(20),
+  row: z.string().max(20),
+  order: z.number().int(),
+  status,
+}).refine((d) => !d.isVideo || d.thumbnail !== null, {
+  message: 'Thumbnail is required for video items',
+  path: ['thumbnail'],
+});
+
+export const galleryItemPatchSchema = z.object({
+  category: z.string().min(1).optional(),
+  labelNp: z.string().min(1).max(150).optional(),
+  labelEn: z.string().min(1).max(150).optional(),
+  media: cloudinaryFile.optional(),
+  thumbnail: cloudinaryFile.nullable().optional(),
+  isVideo: z.boolean().optional(),
+  col: z.string().max(20).optional(),
+  row: z.string().max(20).optional(),
+  order: z.number().int().optional(),
+  status: status.optional(),
+});
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+
 export type StaffCategoryInput = z.infer<typeof staffCategorySchema>;
 export type StaffInput = z.infer<typeof staffSchema>;
 export type ManagementInput = z.infer<typeof managementSchema>;
@@ -121,4 +161,6 @@ export type NoticeInput = z.infer<typeof noticeSchema>;
 export type DownloadCategoryInput = z.infer<typeof downloadCategorySchema>;
 export type DownloadInput = z.infer<typeof downloadSchema>;
 export type NewsEventInput = z.infer<typeof newsEventSchema>;
+export type GalleryCategoryInput = z.infer<typeof galleryCategorySchema>;
+export type GalleryItemInput = z.infer<typeof galleryItemSchema>;
 export type CloudinaryFileInput = z.infer<typeof cloudinaryFile>;
