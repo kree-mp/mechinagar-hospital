@@ -59,6 +59,12 @@ export default function Footer() {
           <span className="font-np">
             © {hospital.copyrightYear} {hospital.nameNp}। सर्वाधिकार सुरक्षित।
           </span>
+          <a
+            href="/dev"
+            className="text-white/20 hover:text-white/50 text-[11px] transition-colors duration-200"
+          >
+            Staff Login
+          </a>
         </div>
       </div>
     </div>
