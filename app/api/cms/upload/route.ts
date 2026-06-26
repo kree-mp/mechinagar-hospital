@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { v2 as cloudinary } from 'cloudinary';
-import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { NextRequest, NextResponse } from "next/server";
+import { v2 as cloudinary } from "cloudinary";
+import { requireCmsAuth } from "@/lib/auth/requireCmsAuth";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -13,11 +13,11 @@ export async function POST(req: NextRequest) {
   if (auth.error) return auth.error;
 
   const formData = await req.formData();
-  const file = formData.get('file') as File | null;
-  const folder = (formData.get('folder') as string | null) ?? 'mechinagar-cms';
+  const file = formData.get("file") as File | null;
+  const folder = (formData.get("folder") as string | null) ?? "mechinagar-cms";
 
   if (!file) {
-    return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -30,13 +30,12 @@ export async function POST(req: NextRequest) {
     width?: number;
     height?: number;
   }>((resolve, reject) => {
-    cloudinary.uploader.upload_stream(
-      { folder, resource_type: 'auto' },
-      (err, result) => {
-        if (err || !result) return reject(err ?? new Error('Upload failed'));
+    cloudinary.uploader
+      .upload_stream({ folder, resource_type: "auto" }, (err, result) => {
+        if (err || !result) return reject(err ?? new Error("Upload failed"));
         resolve(result as typeof result & { width?: number; height?: number });
-      }
-    ).end(buffer);
+      })
+      .end(buffer);
   });
 
   return NextResponse.json({
