@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+.claude/
+memory/
 
 # debug
 npm-debug.log*
