@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { heroSlides } from "@/data/hero";
 
@@ -14,19 +15,29 @@ export default function Hero() {
   }, []);
 
   const next = () => setActive((i) => (i + 1) % heroSlides.length);
-  const prev = () => setActive((i) => (i + heroSlides.length - 1) % heroSlides.length);
+  const prev = () =>
+    setActive((i) => (i + heroSlides.length - 1) % heroSlides.length);
 
   return (
-    <div id="home" className="relative h-[440px] overflow-hidden bg-[#0b1320] sm:h-[480px] lg:h-[530px]">
+    <div
+      id="home"
+      className="relative h-[440px] overflow-hidden bg-[#0b1320] sm:h-[480px] lg:h-[530px]"
+    >
       {heroSlides.map((slide, i) => (
         <div
           key={slide.label}
           className="absolute inset-0 transition-opacity duration-900 ease-in-out"
           style={{ opacity: i === active ? 1 : 0 }}
         >
-          <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,#3a4250_0_17px,#454e5e_17px_34px)]" />
+          <Image
+            src={slide.imgSrc}
+            alt={slide.label}
+            fill
+            className="object-cover"
+            priority={i === 0}
+          />
           <div className="absolute left-[22px] top-[18px] hidden font-mono text-[11px] tracking-wide text-white/50 sm:block">
-            [ {slide.label} — drop photo ]
+            [ {slide.label} ]
           </div>
           <div className="absolute inset-0 bg-[linear-gradient(95deg,rgba(8,12,22,.85)_0%,rgba(8,12,22,.6)_42%,rgba(8,12,22,.12)_100%)]" />
           <div className="absolute inset-y-0 left-0 flex w-full max-w-full flex-col justify-center px-5 sm:max-w-[min(720px,56%)] sm:px-[60px]">

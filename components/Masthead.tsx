@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { hospital } from "@/data/hospital";
-import flagGif from "@/components/img/flaggif.gif";
-import govtEmblem from "@/components/img/pngwing.png"; // Changed extension to .png
 
 export default function Masthead() {
   const [now, setNow] = useState<Date | null>(null);
@@ -27,13 +25,15 @@ export default function Masthead() {
 
   return (
     <div className="mx-auto grid max-w-[1280px] grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 border-b-[3px] border-[#D24B45] px-3 py-2 sm:gap-x-4 sm:gap-y-3 sm:px-6 sm:py-4 lg:grid-cols-[auto_1fr_auto] lg:gap-[26px] lg:px-[30px] lg:py-[18px]">
-      
-      {/* Government Emblem Area (Enlarged & clean for transparent PNG) */}
+
       <div className="flex h-14 w-14 items-center justify-center sm:h-24 sm:w-24 lg:h-28 lg:w-28">
-        <Image 
-          src={govtEmblem} 
-          alt="Government Emblem" 
-          className="h-full w-full object-contain" // Clean setup without blend workarounds
+        <Image
+          width={500}
+          height={500}
+          src={"/img/header/mechinagar-hospital-logo.png"}
+          alt="Mechinagar Hospital Logo"
+          className="h-full w-full object-contain" 
+          draggable={false}
         />
       </div>
 
@@ -55,14 +55,16 @@ export default function Masthead() {
 
       {/* Flag and Time/Date Section */}
       <div className="col-span-2 flex items-center gap-3.5 lg:col-span-1">
-        
         {/* Flag Area */}
         <div className="hidden items-center justify-center sm:flex max-w-[42px] lg:max-w-[54px]">
-          <Image 
-            src={flagGif} 
-            alt="nepal flag" 
-            unoptimized 
-            className="w-full h-auto object-contain"
+          <Image
+            width={500}
+            height={500}
+            src={"/img/header/nepal-flag.gif"}
+            alt="nepal flag"
+            unoptimized
+            draggable={false}
+            className="w-full h-auto object-contain scale-150"
           />
         </div>
 
@@ -75,7 +77,6 @@ export default function Masthead() {
             {time}
           </div>
         </div>
-
       </div>
     </div>
   );
