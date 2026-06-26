@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Libre_Franklin, Noto_Sans_Devanagari } from "next/font/google";
+import QueryProvider from "@/providers/QueryProvider";
 import "./globals.css";
 
 const libreFranklin = Libre_Franklin({
@@ -30,7 +31,9 @@ export default function RootLayout({
       lang="ne"
       className={`${libreFranklin.variable} ${notoSansDevanagari.variable}`}
     >
-      <body className="font-en text-[#1B262C] antialiased">{children}</body>
+      <body className="font-en text-[#1B262C] antialiased">
+          <QueryProvider>{children}</QueryProvider>
+        </body>
     </html>
   );
 }

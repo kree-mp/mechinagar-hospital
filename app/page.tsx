@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import TopBar from "@/components/TopBar";
 import Masthead from "@/components/Masthead";
 import Navbar from "@/components/Navbar";
@@ -31,7 +32,9 @@ export default function Home() {
       <Services />
       <Departments />
       <Doctors />
-      <ManagementCommittee />
+      <Suspense fallback={<div className="h-[420px] animate-pulse bg-[#f6f7f9]" />}>
+        <ManagementCommittee />
+      </Suspense>
       <NoticeBoard />
       <ReportsPublications />
       <NewsEvents />
