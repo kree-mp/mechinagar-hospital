@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { ManagementMember } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { managementPatchSchema } from '@/lib/validations/cms';
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -25,6 +26,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   if (!member) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
+  revalidatePublic('management');
   return NextResponse.json({ member });
 }
 
@@ -40,5 +42,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   await member.softDelete(auth.session.sub);
 
+  revalidatePublic('management');
   return NextResponse.json({ ok: true });
 }

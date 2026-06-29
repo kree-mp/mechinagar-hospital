@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { StaffCategory, Staff } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { staffCategorySchema } from '@/lib/validations/cms';
 
 export async function GET() {
@@ -46,5 +47,6 @@ export async function POST(req: NextRequest) {
     createdBy: auth.session.sub,
   });
 
+  revalidatePublic('staff');
   return NextResponse.json({ category }, { status: 201 });
 }

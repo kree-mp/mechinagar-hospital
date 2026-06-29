@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { Staff } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { staffSchema } from '@/lib/validations/cms';
 
 export async function GET(req: NextRequest) {
@@ -33,5 +34,6 @@ export async function POST(req: NextRequest) {
 
   const staff = await Staff.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('staff');
   return NextResponse.json({ staff }, { status: 201 });
 }

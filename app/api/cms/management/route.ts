@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { ManagementMember } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { managementSchema } from '@/lib/validations/cms';
 
 const ROLE_ORDER = { chief: 0, president: 1, vp: 2, member: 3 };
@@ -35,5 +36,6 @@ export async function POST(req: NextRequest) {
 
   const member = await ManagementMember.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('management');
   return NextResponse.json({ member }, { status: 201 });
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { GalleryItem } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { galleryItemSchema } from '@/lib/validations/cms';
 
 export async function GET(req: NextRequest) {
@@ -39,5 +40,6 @@ export async function POST(req: NextRequest) {
 
   const item = await GalleryItem.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('gallery');
   return NextResponse.json({ item }, { status: 201 });
 }

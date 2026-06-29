@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { Notice } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { noticePatchSchema } from '@/lib/validations/cms';
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -25,6 +26,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   if (!notice) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
+  revalidatePublic('notices');
   return NextResponse.json({ notice });
 }
 
@@ -40,5 +42,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   await notice.softDelete(auth.session.sub);
 
+  revalidatePublic('notices');
   return NextResponse.json({ ok: true });
 }

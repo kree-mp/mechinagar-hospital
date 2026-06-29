@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { NewsEvent } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { newsEventSchema } from '@/lib/validations/cms';
 
 export async function GET(req: NextRequest) {
@@ -33,5 +34,6 @@ export async function POST(req: NextRequest) {
 
   const item = await NewsEvent.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('newsEvents');
   return NextResponse.json({ item }, { status: 201 });
 }

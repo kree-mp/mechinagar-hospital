@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { Download } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { downloadSchema } from '@/lib/validations/cms';
 
 export async function GET(req: NextRequest) {
@@ -37,5 +38,6 @@ export async function POST(req: NextRequest) {
 
   const download = await Download.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('downloads');
   return NextResponse.json({ download }, { status: 201 });
 }

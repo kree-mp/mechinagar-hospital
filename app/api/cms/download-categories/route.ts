@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { DownloadCategory, Download } from '@/lib/db/models';
 import { requireCmsAuth } from '@/lib/auth/requireCmsAuth';
+import { revalidatePublic } from '@/lib/cache';
 import { downloadCategorySchema } from '@/lib/validations/cms';
 
 export async function GET() {
@@ -43,5 +44,6 @@ export async function POST(req: NextRequest) {
 
   const category = await DownloadCategory.create({ ...parsed.data, createdBy: auth.session.sub });
 
+  revalidatePublic('downloads');
   return NextResponse.json({ category }, { status: 201 });
 }
