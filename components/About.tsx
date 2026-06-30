@@ -1,8 +1,12 @@
 import { aboutCopy, aboutGoals, aboutObjectives } from "@/data/hospital";
+import Image from "next/image";
 
 export default function About() {
   return (
-    <div id="about" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
+    <div
+      id="about"
+      className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]"
+    >
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-[54px]">
         <div>
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
@@ -38,7 +42,9 @@ export default function About() {
             ))}
           </div>
           <div className="mt-[22px] rounded-[4px] border border-[#e4e7ec] bg-[#f6f7f9] p-4 px-[18px]">
-            <div className="font-np text-[14.5px] font-bold text-[#1B262C]">उद्देश्यहरू</div>
+            <div className="font-np text-[14.5px] font-bold text-[#1B262C]">
+              उद्देश्यहरू
+            </div>
             <ul className="mt-2.5 space-y-2">
               {aboutObjectives.map((point) => (
                 <li key={point} className="flex items-start gap-2.5">
@@ -54,7 +60,13 @@ export default function About() {
         <div className="relative mt-2 lg:mt-0">
           <div className="flex h-[220px] items-center justify-center rounded-md border border-[#d9dce1] bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)] sm:h-[300px] lg:h-[380px]">
             <span className="font-mono text-[12px] tracking-wide text-[#98a0aa]">
-              [ HOSPITAL BUILDING — drop photo ]
+              <Image
+                height={1000}
+                width={1000}
+                alt="Mechinagar hospital building"
+                src="/img/hero/mechinagar-hospital-hero1.jpg"
+                className="object-cover"
+              />
             </span>
           </div>
           <div className="absolute -bottom-[14px] -left-[14px] rounded-md bg-[#3282B8] px-4 py-3 text-white shadow-[0_14px_30px_-14px_rgba(0,56,147,.6)] sm:-bottom-[18px] sm:-left-[18px] sm:px-6 sm:py-[18px]">
