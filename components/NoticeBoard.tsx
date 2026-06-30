@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { quickServiceLinks, hospital } from "@/data/hospital";
+import RoutePendingOverlay from "@/components/ui/RoutePendingOverlay";
 
 interface NoticeItem {
   id: string;
@@ -110,7 +111,7 @@ export default function NoticeBoard() {
               <Link
                 key={n.id}
                 href={`/notices/${n.id}`}
-                className="flex items-center gap-4 border-b border-[#eef0f3] px-1.5 py-4 text-[#1B262C] hover:bg-[#fafbfc]"
+                className="relative flex items-center gap-4 border-b border-[#eef0f3] px-1.5 py-4 text-[#1B262C] hover:bg-[#fafbfc]"
               >
                 <div className="w-[58px] flex-none rounded-[5px] bg-[#f0f2f5] py-2 text-center">
                   <div className="text-[19px] font-extrabold leading-none tabular-nums text-[#3282B8]">
@@ -130,6 +131,7 @@ export default function NoticeBoard() {
                 <svg className="h-4 w-4 flex-none text-[#c8cdd4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
+                <RoutePendingOverlay />
               </Link>
             ))}
           </div>
