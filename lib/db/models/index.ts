@@ -11,6 +11,7 @@ export { Download } from './Download.model';
 export { NewsEvent } from './NewsEvent.model';
 export { GalleryCategory } from './GalleryCategory.model';
 export { GalleryItem } from './GalleryItem.model';
+export { RateLimit } from './RateLimit.model';
 
 // Types
 export type { UserRole, IUser, IRefreshToken } from './User.model';
@@ -26,6 +27,7 @@ export type { IDownload } from './Download.model';
 export type { INewsEvent } from './NewsEvent.model';
 export type { IGalleryCategory } from './GalleryCategory.model';
 export type { IGalleryItem } from './GalleryItem.model';
+export type { IRateLimit } from './RateLimit.model';
 
 // Shared types
 export type { CloudinaryFile } from '../schemas/cloudinary.schema';

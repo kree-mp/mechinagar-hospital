@@ -2,13 +2,38 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db/connection";
 import { User } from "@/lib/db/models/User.model";
 import { signToken } from "@/lib/auth/jwt";
+import { consumeRateLimit, clientIp } from "@/lib/auth/rateLimit";
+import { verifyTurnstile } from "@/lib/auth/turnstile";
+
+// Per-IP cap, independent of the per-account lockout in the User model.
+const LOGIN_LIMIT = 10;
+const LOGIN_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
+  const ip = clientIp(req);
+
+  const rl = await consumeRateLimit(`login:${ip}`, LOGIN_LIMIT, LOGIN_WINDOW_MS);
+  if (!rl.allowed) {
+    const retryAfter = Math.ceil(rl.retryAfterMs / 1000);
+    return NextResponse.json(
+      { error: "Too many attempts. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } },
+    );
+  }
+
+  const { email, password, turnstileToken } = await req.json();
 
   if (!email || !password) {
     return NextResponse.json(
       { error: "Email and password are required" },
+      { status: 400 },
+    );
+  }
+
+  const humanVerified = await verifyTurnstile(turnstileToken, ip);
+  if (!humanVerified) {
+    return NextResponse.json(
+      { error: "Verification failed. Please try again." },
       { status: 400 },
     );
   }

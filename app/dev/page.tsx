@@ -2,6 +2,9 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Turnstile from "@/components/ui/Turnstile";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function DevLogin() {
   const router = useRouter();
@@ -9,6 +12,11 @@ export default function DevLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState("");
+  // Bumped to remount Turnstile (fresh, single-use token) after a failed submit.
+  const [captchaKey, setCaptchaKey] = useState(0);
+
+  const handleVerify = useCallback((t: string) => setToken(t), []);
 
   const handleSubmit = useCallback(
     async (e: React.BaseSyntheticEvent) => {
@@ -20,24 +28,28 @@ export default function DevLogin() {
         const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password, turnstileToken: token }),
         });
 
         const data = await res.json();
 
         if (!res.ok) {
           setError(data.error ?? "Login failed");
+          setToken("");
+          setCaptchaKey((k) => k + 1);
           return;
         }
 
         router.push(data.user?.role === "superadmin" ? "/dev/dashboard" : "/admin");
       } catch {
         setError("Network error. Please try again.");
+        setToken("");
+        setCaptchaKey((k) => k + 1);
       } finally {
         setLoading(false);
       }
     },
-    [email, password, router],
+    [email, password, token, router],
   );
 
   return (
@@ -99,6 +111,14 @@ export default function DevLogin() {
               />
             </div>
 
+            {TURNSTILE_SITE_KEY && (
+              <Turnstile
+                key={captchaKey}
+                siteKey={TURNSTILE_SITE_KEY}
+                onVerify={handleVerify}
+              />
+            )}
+
             {error && (
               <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
                 <svg
@@ -120,7 +140,7 @@ export default function DevLogin() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || (!!TURNSTILE_SITE_KEY && !token)}
               className="w-full py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex items-center justify-center gap-2"
             >
               {loading ? (
