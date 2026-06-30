@@ -21,8 +21,8 @@ const PUBLIC_TARGETS = {
   notices: ['/api/public/notices', ['/notices/[id]', 'page']],
   // ReportsPublications section → client-fetched API route
   downloads: ['/api/public/downloads'],
-  // NewsEvents section → client-fetched API route
-  newsEvents: ['/api/public/news-events'],
+  // NewsEvents (list) → client-fetched API route + every news detail page
+  newsEvents: ['/api/public/news-events', ['/news/[slug]', 'page']],
 } satisfies Record<string, RevalidateTarget[]>;
 
 export type PublicContent = keyof typeof PUBLIC_TARGETS;

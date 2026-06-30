@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import RoutePendingOverlay from "@/components/ui/RoutePendingOverlay";
 
 interface NewsItem {
   id: string;
@@ -22,7 +24,10 @@ async function fetchNews(): Promise<NewsItem[]> {
 
 function NewsCard({ item }: { item: NewsItem }) {
   return (
-    <div className="overflow-hidden rounded-md border border-[#e4e7ec] bg-white hover:shadow-[0_16px_34px_-20px_rgba(15,23,42,.4)]">
+    <Link
+      href={`/news/${item.slug}`}
+      className="relative block overflow-hidden rounded-md border border-[#e4e7ec] bg-white hover:shadow-[0_16px_34px_-20px_rgba(15,23,42,.4)]"
+    >
       <div className="relative flex h-[180px] items-center justify-center bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)]">
         {item.imageUrl ? (
           <Image
@@ -49,7 +54,8 @@ function NewsCard({ item }: { item: NewsItem }) {
           {item.excerpt}
         </div>
       </div>
-    </div>
+      <RoutePendingOverlay />
+    </Link>
   );
 }
 
