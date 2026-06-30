@@ -43,11 +43,14 @@ export default function Contact() {
           ))}
         </div>
         <div className="flex flex-col overflow-hidden rounded-md border border-[#e4e7ec]">
-          <div className="flex min-h-[230px] flex-1 items-center justify-center bg-[repeating-linear-gradient(45deg,#dfe3e8_0_16px,#e8ebee_16px_32px)]">
-            <span className="font-mono text-[12px] text-[#98a0aa]">
-              [ GOOGLE MAP — embed location ]
-            </span>
-          </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d992.5207556222213!2d88.09979618772128!3d26.65943924294638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e5b3db483fffff%3A0xd997f9804daf48dc!2sDhulabari%20Health%20Centre!5e0!3m2!1sen!2snp!4v1782799983576!5m2!1sen!2snp"
+            title="Dhulabari Health Centre स्थान नक्सा"
+            className="min-h-[230px] w-full flex-1 border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
           <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2">
             <input
               placeholder="नाम"
