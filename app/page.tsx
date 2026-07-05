@@ -4,6 +4,7 @@ import Masthead from "@/components/Masthead";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import QuickAccess from "@/components/QuickAccess";
+import PramukhMessages from "@/components/PramukhMessages";
 import About from "@/components/About";
 import Statistics from "@/components/Statistics";
 import Services from "@/components/Services";
@@ -27,6 +28,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <QuickAccess />
+      <Suspense fallback={<div className="h-[480px] animate-pulse bg-[#f6f7f9]" />}>
+        <PramukhMessages />
+      </Suspense>
       <About />
       <Statistics />
       <Services />
