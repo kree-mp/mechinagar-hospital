@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { heroSlides } from "@/data/hero";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -44,8 +48,8 @@ export default function Hero() {
             <div className="font-np inline-flex self-start items-center gap-2 rounded-[3px] bg-[#D24B45] px-[13px] py-1.5 text-[10.5px] font-bold tracking-[1px] text-white sm:text-[11.5px] sm:tracking-[1.5px]">
               {slide.en}
             </div>
-            <div className="font-np mt-[14px] whitespace-pre-line text-[28px] font-extrabold leading-[1.18] text-white [text-shadow:0_2px_18px_rgba(0,0,0,.4)] sm:mt-[18px] sm:text-[36px] lg:text-[48px]">
-              {slide.title}
+            <div className={`mt-[14px] whitespace-pre-line text-[28px] font-extrabold leading-[1.18] text-white [text-shadow:0_2px_18px_rgba(0,0,0,.4)] sm:mt-[18px] sm:text-[36px] lg:text-[48px] ${npClass}`}>
+              {isNp ? slide.title : slide.titleEn}
             </div>
             <div className="mt-3 max-w-[540px] text-[14px] leading-[1.55] text-white/88 sm:mt-4 sm:text-[16px]">
               {slide.sub}
@@ -53,15 +57,15 @@ export default function Hero() {
             <div className="mt-5 flex flex-wrap gap-3 sm:mt-7 sm:gap-3.5">
               <a
                 href="#services"
-                className="font-np rounded bg-[#D24B45] px-5 py-3 text-[13.5px] font-bold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px]"
+                className={`rounded bg-[#D24B45] px-5 py-3 text-[13.5px] font-bold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px] ${npClass}`}
               >
-                हाम्रा सेवाहरू
+                {isNp ? "हाम्रा सेवाहरू" : "Our Services"}
               </a>
               <a
                 href="#doctors"
-                className="font-np rounded border border-white/50 bg-white/[.12] px-5 py-3 text-[13.5px] font-semibold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px]"
+                className={`rounded border border-white/50 bg-white/[.12] px-5 py-3 text-[13.5px] font-semibold text-white sm:px-[26px] sm:py-[13px] sm:text-[14.5px] ${npClass}`}
               >
-                चिकित्सक खोज्नुहोस्
+                {isNp ? "चिकित्सक खोज्नुहोस्" : "Find a Doctor"}
               </a>
             </div>
           </div>

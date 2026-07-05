@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import RoutePendingOverlay from "@/components/ui/RoutePendingOverlay";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 interface NewsItem {
   id: string;
@@ -77,6 +78,9 @@ function NewsSkeleton() {
 }
 
 export default function NewsEvents() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
   const { data, isLoading } = useQuery<NewsItem[]>({
     queryKey: ["public-news-events"],
     queryFn: fetchNews,
@@ -90,16 +94,16 @@ export default function NewsEvents() {
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
             NEWS &amp; EVENTS
           </div>
-          <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-            समाचार तथा गतिविधि
+          <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>
+            {isNp ? "समाचार तथा गतिविधि" : "News & Events"}
           </div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
         {isLoading ? (
           <NewsSkeleton />
         ) : !data || data.length === 0 ? (
-          <div className="font-np rounded-md border border-[#e4e7ec] bg-white py-14 text-center text-[15px] text-[#98a0aa]">
-            हाल कुनै समाचार उपलब्ध छैन।
+          <div className={`rounded-md border border-[#e4e7ec] bg-white py-14 text-center text-[15px] text-[#98a0aa] ${npClass}`}>
+            {isNp ? "हाल कुनै समाचार उपलब्ध छैन।" : "No news available at the moment."}
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-[22px] sm:grid-cols-2 lg:grid-cols-3">

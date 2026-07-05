@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { hospital } from "@/data/hospital";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function Masthead() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -39,17 +42,17 @@ export default function Masthead() {
 
       {/* Hospital Details */}
       <div className="text-left lg:text-center">
-        <div className="font-np text-[14.5px] font-extrabold leading-[1.1] text-[#0F4C75] sm:text-[24px] lg:text-[32px]">
-          {hospital.nameNp}
+        <div className={`text-[14.5px] font-extrabold leading-[1.1] text-[#0F4C75] sm:text-[24px] lg:text-[32px] ${isNp ? "font-np" : ""}`}>
+          {isNp ? hospital.nameNp : hospital.nameEn}
         </div>
         <div className="mt-[2px] text-[10px] font-bold tracking-[.5px] text-[#1B262C] sm:mt-[3px] sm:text-[14px] lg:text-[16px] lg:tracking-[1.5px]">
-          {hospital.nameEn}
+          {isNp ? hospital.nameEn : hospital.nameNp}
         </div>
-        <div className="font-np mt-[7px] hidden text-[13.5px] text-[#5b6168] sm:block">
-          {hospital.municipalityNp}
+        <div className={`mt-[7px] hidden text-[13.5px] text-[#5b6168] sm:block ${isNp ? "font-np" : ""}`}>
+          {isNp ? hospital.municipalityNp : hospital.municipalityEn}
         </div>
-        <div className="font-np hidden text-[12px] tracking-[.2px] text-[#7a818b] sm:block">
-          {hospital.ministryNp}
+        <div className={`hidden text-[12px] tracking-[.2px] text-[#7a818b] sm:block ${isNp ? "font-np" : ""}`}>
+          {isNp ? hospital.ministryNp : hospital.ministryEn}
         </div>
       </div>
 

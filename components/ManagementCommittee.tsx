@@ -1,5 +1,10 @@
 import { connectDB } from "@/lib/db/connection";
 import { ManagementMember } from "@/lib/db/models";
+import {
+  ManagementCommitteeTitle,
+  ChiefRoleLabel,
+  CommitteeSectionLabel,
+} from "@/components/ManagementCommitteeHeadings";
 
 const LEAD_ROLES = ["president", "vp"];
 
@@ -24,9 +29,7 @@ export default async function ManagementCommittee() {
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
           GOVERNANCE
         </div>
-        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-          अस्पताल व्यवस्थापन
-        </div>
+        <ManagementCommitteeTitle />
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
 
@@ -47,18 +50,14 @@ export default async function ManagementCommittee() {
             </div>
           )}
           <div>
-            <div className="font-np text-[12px] font-bold tracking-[.5px] text-[#98a0aa]">
-              स्वास्थ्य शाखा प्रमुख
-            </div>
+            <ChiefRoleLabel />
             <div className="font-np text-[16px] font-bold text-[#1B262C]">{chief.nameNp}</div>
             <div className="font-np text-[13px] font-semibold text-[#D24B45]">{chief.post}</div>
           </div>
         </div>
       )}
 
-      <div className="font-np mb-[18px] text-center text-[16px] font-bold text-[#1B262C] sm:text-left">
-        अस्पताल व्यवस्थापन समिति
-      </div>
+      <CommitteeSectionLabel />
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
         {committee.map((m) => {
           const isLead = LEAD_ROLES.includes(m.role);

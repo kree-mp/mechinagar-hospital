@@ -3,14 +3,18 @@
 import { useState } from "react";
 import { navItems } from "@/data/hospital";
 import { departments } from "@/data/departments";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function Navbar() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
   const [deptMenuOpen, setDeptMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileDeptOpen, setMobileDeptOpen] = useState(false);
 
   const [home, about, services] = navItems;
   const rest = navItems.slice(3);
+  const npClass = isNp ? "font-np" : "";
 
   const closeMobile = () => {
     setMobileOpen(false);
@@ -23,29 +27,29 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-[1280px] items-center px-4">
           <a
             href={home.href}
-            className="font-np hidden bg-black/[.16] px-[15px] py-[15px] text-[14.5px] font-semibold text-white lg:block"
+            className={`hidden bg-black/[.16] px-[15px] py-[15px] text-[14.5px] font-semibold text-white lg:block ${npClass}`}
           >
-            {home.label}
+            {isNp ? home.label : home.labelEn}
           </a>
           <a
             href={about.href}
-            className="font-np hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block"
+            className={`hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block ${npClass}`}
           >
-            {about.label}
+            {isNp ? about.label : about.labelEn}
           </a>
           <a
             href={services.href}
-            className="font-np hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block"
+            className={`hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block ${npClass}`}
           >
-            {services.label}
+            {isNp ? services.label : services.labelEn}
           </a>
 
           <div className="relative hidden lg:block">
             <button
               onClick={() => setDeptMenuOpen((v) => !v)}
-              className="font-np flex items-center gap-1.5 px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:text-white"
+              className={`flex items-center gap-1.5 px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:text-white ${npClass}`}
             >
-              सेवा विवरण <span className="text-[9px] opacity-80">▼</span>
+              {isNp ? "सेवा विवरण" : "Department Details"} <span className="text-[9px] opacity-80">▼</span>
             </button>
             {deptMenuOpen && (
               <div className="absolute left-0 top-full z-[60] grid w-[480px] grid-cols-2 gap-1 rounded-b-md border-t-[3px] border-[#3282B8] bg-white p-3 shadow-[0_18px_40px_-12px_rgba(0,0,0,.35)]">
@@ -68,24 +72,24 @@ export default function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              className="font-np hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block"
+              className={`hidden px-[15px] py-[15px] text-[14.5px] font-medium text-[#BBE1FA] hover:bg-black/[.12] hover:text-white lg:block ${npClass}`}
             >
-              {item.label}
+              {isNp ? item.label : item.labelEn}
             </a>
           ))}
 
           <a
             href="#contact"
-            className="font-np ml-auto hidden rounded-[3px] bg-[#D24B45] px-[18px] py-[9px] text-[13.5px] font-bold text-white lg:block"
+            className={`ml-auto hidden rounded-[3px] bg-[#D24B45] px-[18px] py-[9px] text-[13.5px] font-bold text-white lg:block ${npClass}`}
           >
-            अनलाइन अपोइन्टमेन्ट
+            {isNp ? "अनलाइन अपोइन्टमेन्ट" : "Online Appointment"}
           </a>
 
           <a
             href={home.href}
-            className="font-np py-[15px] text-[14.5px] font-semibold text-white lg:hidden"
+            className={`py-[15px] text-[14.5px] font-semibold text-white lg:hidden ${npClass}`}
           >
-            {home.label}
+            {isNp ? home.label : home.labelEn}
           </a>
           <button
             onClick={() => setMobileOpen((v) => !v)}
@@ -113,23 +117,23 @@ export default function Navbar() {
           <a
             href={about.href}
             onClick={closeMobile}
-            className="font-np block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA]"
+            className={`block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA] ${npClass}`}
           >
-            {about.label}
+            {isNp ? about.label : about.labelEn}
           </a>
           <a
             href={services.href}
             onClick={closeMobile}
-            className="font-np block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA]"
+            className={`block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA] ${npClass}`}
           >
-            {services.label}
+            {isNp ? services.label : services.labelEn}
           </a>
 
           <button
             onClick={() => setMobileDeptOpen((v) => !v)}
-            className="font-np flex w-full items-center justify-between border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA]"
+            className={`flex w-full items-center justify-between border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA] ${npClass}`}
           >
-            सेवा विवरण <span className="text-[9px] opacity-80">{mobileDeptOpen ? "▲" : "▼"}</span>
+            {isNp ? "सेवा विवरण" : "Department Details"} <span className="text-[9px] opacity-80">{mobileDeptOpen ? "▲" : "▼"}</span>
           </button>
           {mobileDeptOpen && (
             <div className="bg-black/[.15] px-5 py-2">
@@ -151,18 +155,18 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               onClick={closeMobile}
-              className="font-np block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA]"
+              className={`block border-b border-white/10 px-5 py-3.5 text-[14.5px] font-medium text-[#BBE1FA] ${npClass}`}
             >
-              {item.label}
+              {isNp ? item.label : item.labelEn}
             </a>
           ))}
 
           <a
             href="#contact"
             onClick={closeMobile}
-            className="font-np m-4 block rounded-[3px] bg-[#D24B45] px-[18px] py-3 text-center text-[13.5px] font-bold text-white"
+            className={`m-4 block rounded-[3px] bg-[#D24B45] px-[18px] py-3 text-center text-[13.5px] font-bold text-white ${npClass}`}
           >
-            अनलाइन अपोइन्टमेन्ट
+            {isNp ? "अनलाइन अपोइन्टमेन्ट" : "Online Appointment"}
           </a>
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLanguage } from '@/providers/LanguageProvider';
 
 const INITIAL_LIMIT = 8;
 
@@ -42,6 +43,9 @@ function GallerySkeleton() {
 }
 
 export default function Gallery() {
+  const { language } = useLanguage();
+  const isNp = language === 'np';
+  const npClass = isNp ? 'font-np' : '';
   const [showAll, setShowAll] = useState(false);
 
   const { data, isLoading } = useQuery({
@@ -63,7 +67,7 @@ export default function Gallery() {
       <div className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
         <div className="mb-10 flex flex-col items-center gap-2 text-center">
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">PHOTO GALLERY</div>
-          <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">ग्यालरी</div>
+          <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>{isNp ? 'ग्यालरी' : 'Gallery'}</div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
 
@@ -89,7 +93,7 @@ export default function Gallery() {
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D24B45] text-white text-xs">
                       ▶
                     </span>
-                    <span className="font-np text-[12.5px] font-semibold text-white drop-shadow-sm">{g.labelNp}</span>
+                    <span className={`text-[12.5px] font-semibold text-white drop-shadow-sm ${npClass}`}>{isNp ? g.labelNp : g.labelEn}</span>
                   </div>
                 </>
               ) : (
@@ -102,7 +106,7 @@ export default function Gallery() {
                     loading="lazy"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-2.5 pt-6 pb-2">
-                    <span className="font-np text-[11.5px] font-semibold text-white leading-tight">{g.labelNp}</span>
+                    <span className={`text-[11.5px] font-semibold text-white leading-tight ${npClass}`}>{isNp ? g.labelNp : g.labelEn}</span>
                   </div>
                 </>
               )}

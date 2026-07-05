@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 interface DownloadItem {
   id: string;
@@ -48,6 +49,9 @@ function ReportsSkeleton() {
 }
 
 export default function ReportsPublications() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
   const { data, isLoading } = useQuery<DownloadsData>({
     queryKey: ["public-downloads"],
     queryFn: fetchDownloads,
@@ -63,8 +67,8 @@ export default function ReportsPublications() {
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
             DOWNLOADS
           </div>
-          <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-            प्रतिवेदन तथा प्रकाशन
+          <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>
+            {isNp ? "प्रतिवेदन तथा प्रकाशन" : "Reports & Publications"}
           </div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
@@ -85,13 +89,13 @@ export default function ReportsPublications() {
                   href={cat.downloads[0].fileUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-np flex-none rounded-[20px] bg-[#EBF3FB] px-3 py-1.5 text-[12px] font-semibold text-[#3282B8] hover:bg-[#d6eaf8] transition-colors"
+                  className={`flex-none rounded-[20px] bg-[#EBF3FB] px-3 py-1.5 text-[12px] font-semibold text-[#3282B8] hover:bg-[#d6eaf8] transition-colors ${npClass}`}
                 >
-                  डाउनलोड ↓
+                  {isNp ? "डाउनलोड ↓" : "Download ↓"}
                 </a>
               ) : (
-                <span className="font-np flex-none rounded-[20px] bg-[#f0f2f5] px-3 py-1.5 text-[12px] font-semibold text-[#98a0aa]">
-                  अपलोड हुँदैछ
+                <span className={`flex-none rounded-[20px] bg-[#f0f2f5] px-3 py-1.5 text-[12px] font-semibold text-[#98a0aa] ${npClass}`}>
+                  {isNp ? "अपलोड हुँदैछ" : "Uploading soon"}
                 </span>
               )}
             </div>

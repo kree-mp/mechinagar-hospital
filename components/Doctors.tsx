@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 interface StaffCategory {
   slug: string;
@@ -60,6 +61,9 @@ function DoctorsSkeleton() {
 }
 
 export default function Doctors() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
   const [filter, setFilter] = useState<string>("all");
 
   const { data, isLoading } = useQuery<StaffData>({
@@ -79,8 +83,8 @@ export default function Doctors() {
   if (isLoading || !data) return <DoctorsSkeleton />;
 
   const chips = [
-    { id: "all", label: "सबै" },
-    ...data.categories.map((c) => ({ id: c.slug, label: c.labelNp })),
+    { id: "all", label: "सबै", labelEn: "All" },
+    ...data.categories.map((c) => ({ id: c.slug, label: c.labelNp, labelEn: c.labelEn })),
   ];
 
   return (
@@ -90,8 +94,8 @@ export default function Doctors() {
           <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
             OUR TEAM
           </div>
-          <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-            चिकित्सक तथा कर्मचारी विवरण
+          <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>
+            {isNp ? "चिकित्सक तथा कर्मचारी विवरण" : "Staff Details"}
           </div>
           <div className="h-[3px] w-[54px] bg-[#D24B45]" />
         </div>
@@ -107,9 +111,9 @@ export default function Doctors() {
                   color: isActive ? "#fff" : "#41474f",
                   borderColor: isActive ? "#0F4C75" : "#d9dce1",
                 }}
-                className="font-np rounded-[20px] border px-4 py-2 text-[13.5px] font-semibold"
+                className={`rounded-[20px] border px-4 py-2 text-[13.5px] font-semibold ${npClass}`}
               >
-                {chip.label}
+                {isNp ? chip.label : chip.labelEn}
               </button>
             );
           })}

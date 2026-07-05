@@ -1,13 +1,20 @@
+"use client";
+
 import { contactInfoCards } from "@/data/hospital";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function Contact() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
+
   return (
     <div id="contact" className="mx-auto max-w-[1280px] px-5 py-12 sm:px-6 sm:py-16 lg:px-[30px] lg:py-[78px]">
       <div className="mb-10 flex flex-col items-center gap-2 text-center">
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
           GET IN TOUCH
         </div>
-        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">सम्पर्क</div>
+        <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>{isNp ? "सम्पर्क" : "Contact"}</div>
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-[30px]">
@@ -33,10 +40,10 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <div className="font-np text-[15px] font-bold">{card.titleNp}</div>
+                <div className={`text-[15px] font-bold ${npClass}`}>{isNp ? card.titleNp : card.titleEn}</div>
                 <div
-                  className="font-np mt-0.5 text-[13.5px] leading-[1.6] text-[#5b6168]"
-                  dangerouslySetInnerHTML={{ __html: card.body }}
+                  className={`mt-0.5 text-[13.5px] leading-[1.6] text-[#5b6168] ${npClass}`}
+                  dangerouslySetInnerHTML={{ __html: isNp ? card.body : card.bodyEn }}
                 />
               </div>
             </div>
@@ -53,19 +60,19 @@ export default function Contact() {
           />
           <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2">
             <input
-              placeholder="नाम"
-              className="font-np rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none"
+              placeholder={isNp ? "नाम" : "Name"}
+              className={`rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none ${npClass}`}
             />
             <input
-              placeholder="फोन नम्बर"
-              className="font-np rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none"
+              placeholder={isNp ? "फोन नम्बर" : "Phone Number"}
+              className={`rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none ${npClass}`}
             />
             <textarea
-              placeholder="तपाईंको सन्देश"
-              className="font-np col-span-1 h-[70px] resize-none rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none sm:col-span-2"
+              placeholder={isNp ? "तपाईंको सन्देश" : "Your message"}
+              className={`col-span-1 h-[70px] resize-none rounded-[5px] border border-[#d9dce1] px-[13px] py-[11px] text-[13.5px] outline-none sm:col-span-2 ${npClass}`}
             />
-            <button className="font-np col-span-1 rounded-[5px] bg-[#0F4C75] py-3 text-[14.5px] font-bold text-white sm:col-span-2">
-              सन्देश पठाउनुहोस्
+            <button className={`col-span-1 rounded-[5px] bg-[#0F4C75] py-3 text-[14.5px] font-bold text-white sm:col-span-2 ${npClass}`}>
+              {isNp ? "सन्देश पठाउनुहोस्" : "Send Message"}
             </button>
           </div>
         </div>

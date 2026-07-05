@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { departments } from "@/data/departments";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function Departments() {
+  const { language } = useLanguage();
+  const isNp = language === "np";
+  const npClass = isNp ? "font-np" : "";
   const [activeIndex, setActiveIndex] = useState(0);
   const activeDept = departments[activeIndex];
 
@@ -13,8 +17,8 @@ export default function Departments() {
         <div className="text-[12px] font-bold tracking-[2.5px] text-[#D24B45]">
           AVAILABLE HEALTH SERVICES
         </div>
-        <div className="font-np text-[24px] font-extrabold text-[#1B262C] sm:text-[31px]">
-          उपलब्ध स्वास्थ्य सेवाहरू
+        <div className={`text-[24px] font-extrabold text-[#1B262C] sm:text-[31px] ${npClass}`}>
+          {isNp ? "उपलब्ध स्वास्थ्य सेवाहरू" : "Available Health Services"}
         </div>
         <div className="h-[3px] w-[54px] bg-[#D24B45]" />
       </div>
@@ -55,21 +59,21 @@ export default function Departments() {
                 {activeDept.en}
               </div>
             </div>
-            <div className="font-np rounded-[20px] bg-[#E7F1FB] px-3.5 py-2 text-[13px] font-bold text-[#0F4C75]">
-              {activeDept.availability}
+            <div className={`rounded-[20px] bg-[#E7F1FB] px-3.5 py-2 text-[13px] font-bold text-[#0F4C75] ${npClass}`}>
+              {isNp ? activeDept.availability : activeDept.availabilityEn}
             </div>
           </div>
-          <p className="font-np mt-4 text-[14.5px] leading-[1.8] text-[#41474f]">
-            {activeDept.desc}
+          <p className={`mt-4 text-[14.5px] leading-[1.8] text-[#41474f] ${npClass}`}>
+            {isNp ? activeDept.desc : activeDept.descEn}
           </p>
-          <div className="font-np mb-2.5 mt-[22px] text-[13px] font-bold text-[#1B262C]">
-            उपलब्ध सेवाहरू
+          <div className={`mb-2.5 mt-[22px] text-[13px] font-bold text-[#1B262C] ${npClass}`}>
+            {isNp ? "उपलब्ध सेवाहरू" : "Available Services"}
           </div>
           <div className="flex flex-wrap gap-2">
-            {activeDept.subServices.map((sv) => (
+            {(isNp ? activeDept.subServices : activeDept.subServicesEn).map((sv) => (
               <span
                 key={sv}
-                className="font-np rounded-[20px] border border-[#d9dce1] bg-white px-[13px] py-1.5 text-[13px] text-[#41474f]"
+                className={`rounded-[20px] border border-[#d9dce1] bg-white px-[13px] py-1.5 text-[13px] text-[#41474f] ${npClass}`}
               >
                 {sv}
               </span>
