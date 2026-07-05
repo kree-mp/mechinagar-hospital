@@ -15,6 +15,8 @@ const PUBLIC_TARGETS = {
   staff: ['/api/public/staff'],
   // ManagementCommittee is server-rendered into the home page
   management: ['/'],
+  // PramukhMessages is server-rendered into the home page
+  pramukhMessages: ['/'],
   // Gallery section → client-fetched API route
   gallery: ['/api/public/gallery'],
   // NoticeBoard (list) + every notice detail page

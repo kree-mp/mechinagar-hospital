@@ -52,6 +52,19 @@ export const managementSchema = z.object({
 
 export const managementPatchSchema = managementSchema.partial();
 
+// ── Pramukh Messages ───────────────────────────────────────────────────────────
+
+export const pramukhMessageSchema = z.object({
+  role: z.enum(['nagar_pramukh', 'hospital_pramukh']),
+  name: z.string().min(1, 'Name is required').max(150),
+  post: z.string().min(1, 'Post is required').max(200),
+  message: z.string().min(1, 'Message is required').max(4000),
+  status,
+  photo: cloudinaryFile,
+});
+
+export const pramukhMessagePatchSchema = pramukhMessageSchema.partial();
+
 // ── Notices ────────────────────────────────────────────────────────────────────
 
 export const noticeCategorySchema = z.object({
@@ -156,6 +169,7 @@ export const galleryItemPatchSchema = z.object({
 export type StaffCategoryInput = z.infer<typeof staffCategorySchema>;
 export type StaffInput = z.infer<typeof staffSchema>;
 export type ManagementInput = z.infer<typeof managementSchema>;
+export type PramukhMessageInput = z.infer<typeof pramukhMessageSchema>;
 export type NoticeCategoryInput = z.infer<typeof noticeCategorySchema>;
 export type NoticeInput = z.infer<typeof noticeSchema>;
 export type DownloadCategoryInput = z.infer<typeof downloadCategorySchema>;
