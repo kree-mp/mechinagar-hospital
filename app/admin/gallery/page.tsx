@@ -18,6 +18,7 @@ import FileUpload from '../_components/ui/FileUpload';
 import { Field, inputCls, selectCls } from '../_components/ui/Field';
 import type { PublishStatus } from '@/lib/db/plugins/publishable.plugin';
 import type { CloudinaryFileInput } from '@/lib/validations/cms';
+import { extractYoutubeId, youtubeThumbnailUrl } from '@/lib/utils/youtube';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -35,9 +36,11 @@ interface GalleryItemRecord {
   category: string;
   labelNp: string;
   labelEn: string;
-  media: CloudinaryFileInput;
+  media: CloudinaryFileInput | null;
   thumbnail: CloudinaryFileInput | null;
   isVideo: boolean;
+  isYoutube: boolean;
+  youtubeId: string | null;
   col: string;
   row: string;
   order: number;
@@ -128,15 +131,34 @@ const GalleryItemForm = memo(function GalleryItemForm({
       order: 0,
       status: 'draft',
       isVideo: false,
+      isYoutube: false,
+      youtubeId: null,
       col: 'span 1',
       row: 'span 1',
-      media: undefined as unknown as CloudinaryFileInput,
+      media: null,
       thumbnail: null,
       ...defaultValues,
     },
   });
 
   const isVideo = useWatch({ control, name: 'isVideo' });
+  const isYoutube = useWatch({ control, name: 'isYoutube' });
+  const youtubeId = useWatch({ control, name: 'youtubeId' });
+
+  const [youtubeInput, setYoutubeInput] = useState(
+    defaultValues?.youtubeId ? `https://youtu.be/${defaultValues.youtubeId}` : ''
+  );
+  const [youtubeInputTouched, setYoutubeInputTouched] = useState(false);
+
+  const handleYoutubeInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setYoutubeInput(value);
+      setYoutubeInputTouched(true);
+      setValue('youtubeId', extractYoutubeId(value), { shouldValidate: true });
+    },
+    [setValue]
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -155,7 +177,12 @@ const GalleryItemForm = memo(function GalleryItemForm({
           id="isVideo"
           {...register('isVideo', {
             onChange: (e) => {
-              if (!e.target.checked) setValue('thumbnail', null);
+              if (!e.target.checked) {
+                setValue('thumbnail', null);
+                setValue('isYoutube', false);
+                setValue('youtubeId', null);
+                setYoutubeInput('');
+              }
             },
           })}
           className="w-4 h-4 rounded border-gray-300 text-blue-600"
@@ -163,38 +190,87 @@ const GalleryItemForm = memo(function GalleryItemForm({
         <label htmlFor="isVideo" className="text-sm font-medium text-gray-700">Video item</label>
       </div>
 
-      <Field label="Media" required error={errors.media?.message}>
-        <Controller
-          control={control}
-          name="media"
-          render={({ field }) => (
-            <FileUpload
-              value={field.value ?? null}
-              onChange={field.onChange}
-              accept={isVideo ? 'video/*' : 'image/*'}
-              folder="mechinagar-gallery"
-              label={isVideo ? 'Upload video' : 'Upload image'}
-            />
-          )}
-        />
-      </Field>
-
       {isVideo && (
-        <Field label="Thumbnail" required error={errors.thumbnail?.message}>
-          <Controller
-            control={control}
-            name="thumbnail"
-            render={({ field }) => (
-              <FileUpload
-                value={field.value ?? null}
-                onChange={field.onChange}
-                accept="image/*"
-                folder="mechinagar-gallery-thumbs"
-                label="Upload thumbnail image"
-              />
-            )}
+        <div className="flex items-center gap-2 pl-6">
+          <input
+            type="checkbox"
+            id="isYoutube"
+            {...register('isYoutube', {
+              onChange: (e) => {
+                setValue('media', null);
+                setValue('thumbnail', null);
+                if (!e.target.checked) {
+                  setValue('youtubeId', null);
+                  setYoutubeInput('');
+                }
+              },
+            })}
+            className="w-4 h-4 rounded border-gray-300 text-blue-600"
           />
+          <label htmlFor="isYoutube" className="text-sm font-medium text-gray-700">Embed from YouTube</label>
+        </div>
+      )}
+
+      {isYoutube ? (
+        <Field
+          label="YouTube link"
+          required
+          error={youtubeInputTouched ? errors.youtubeId?.message : undefined}
+        >
+          <input
+            value={youtubeInput}
+            onChange={handleYoutubeInputChange}
+            className={inputCls}
+            placeholder="Paste a YouTube link or embed code"
+          />
+          {youtubeId && (
+            <div className="mt-2 flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={youtubeThumbnailUrl(youtubeId)}
+                alt=""
+                className="w-20 h-12 rounded object-cover border border-gray-200"
+              />
+              <span className="text-xs text-gray-400">Video ID: {youtubeId}</span>
+            </div>
+          )}
         </Field>
+      ) : (
+        <>
+          <Field label="Media" required error={errors.media?.message}>
+            <Controller
+              control={control}
+              name="media"
+              render={({ field }) => (
+                <FileUpload
+                  value={field.value ?? null}
+                  onChange={field.onChange}
+                  accept={isVideo ? 'video/*' : 'image/*'}
+                  folder="mechinagar-gallery"
+                  label={isVideo ? 'Upload video' : 'Upload image'}
+                />
+              )}
+            />
+          </Field>
+
+          {isVideo && (
+            <Field label="Thumbnail" required error={errors.thumbnail?.message}>
+              <Controller
+                control={control}
+                name="thumbnail"
+                render={({ field }) => (
+                  <FileUpload
+                    value={field.value ?? null}
+                    onChange={field.onChange}
+                    accept="image/*"
+                    folder="mechinagar-gallery-thumbs"
+                    label="Upload thumbnail image"
+                  />
+                )}
+              />
+            </Field>
+          )}
+        </>
       )}
 
       <div className="grid grid-cols-2 gap-3">
@@ -359,7 +435,11 @@ const CategoryRow = memo(function CategoryRow({
           ) : (
             <div className="divide-y divide-gray-50">
               {items.map((item) => {
-                const thumbUrl = item.isVideo ? item.thumbnail?.url : item.media?.url;
+                const thumbUrl = item.isYoutube && item.youtubeId
+                  ? youtubeThumbnailUrl(item.youtubeId)
+                  : item.isVideo
+                    ? item.thumbnail?.url
+                    : item.media?.url;
                 return (
                   <div key={item._id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50/60 transition-colors">
                     <div className="w-14 h-10 rounded overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
@@ -374,7 +454,7 @@ const CategoryRow = memo(function CategoryRow({
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{item.labelNp}</p>
-                      <p className="text-xs text-gray-400">{item.labelEn} · {item.col} / {item.row}{item.isVideo ? ' · video' : ''}</p>
+                      <p className="text-xs text-gray-400">{item.labelEn} · {item.col} / {item.row}{item.isYoutube ? ' · YouTube' : item.isVideo ? ' · video' : ''}</p>
                     </div>
                     <StatusBadge status={item.status} />
                     <div className="flex items-center gap-1 shrink-0">
