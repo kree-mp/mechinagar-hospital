@@ -9,11 +9,15 @@ export interface IGalleryItem extends SoftDeleteFields, AuditFields, Publishable
   category: Types.ObjectId;
   labelNp: string;
   labelEn: string;
-  // Full media asset — image or video
-  media: CloudinaryFile;
-  // Separate thumbnail for video entries; null for images
+  // Full media asset — image or video; null when isYoutube
+  media: CloudinaryFile | null;
+  // Separate thumbnail for uploaded video entries; null for images and YouTube items
   thumbnail: CloudinaryFile | null;
   isVideo: boolean;
+  // Embedded YouTube video instead of an uploaded file
+  isYoutube: boolean;
+  // Extracted 11-char YouTube video ID; null unless isYoutube
+  youtubeId: string | null;
   // CSS grid layout hints — admin controls these in the CMS
   col: string;
   row: string;
@@ -50,10 +54,23 @@ const galleryItemSchema = new Schema<
     },
     media: {
       type: cloudinarySchema,
-      required: [true, 'Media file is required'],
+      default: null,
+      required: [
+        function (this: IGalleryItem) {
+          return !this.isYoutube;
+        },
+        'Media file is required',
+      ],
     },
     thumbnail: { type: cloudinarySchema, default: null },
     isVideo: { type: Boolean, default: false },
+    isYoutube: { type: Boolean, default: false },
+    youtubeId: {
+      type: String,
+      default: null,
+      trim: true,
+      maxlength: [11, 'YouTube video ID must be 11 characters'],
+    },
     // CSS grid column span e.g. "span 2" — kept as-is for the frontend
     col: {
       type: String,
@@ -75,10 +92,13 @@ const galleryItemSchema = new Schema<
 
 galleryItemSchema.index({ category: 1, order: 1 });
 
-// Video items should have a thumbnail; warn by requiring it
+// Uploaded video items should have a thumbnail; warn by requiring it
 galleryItemSchema.pre('save', function () {
-  if (this.isModified('isVideo') && this.isVideo && !this.thumbnail) {
+  if (this.isVideo && !this.isYoutube && !this.thumbnail) {
     throw new Error('thumbnail is required for video gallery items');
+  }
+  if (this.isYoutube && !this.youtubeId) {
+    throw new Error('youtubeId is required for YouTube gallery items');
   }
 });
 

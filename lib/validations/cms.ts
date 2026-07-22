@@ -135,18 +135,28 @@ export const galleryCategorySchema = z.object({
   order: z.number().int(),
 });
 
+const youtubeId = z.string().regex(/^[a-zA-Z0-9_-]{11}$/, 'Invalid YouTube video');
+
 export const galleryItemSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   labelNp: z.string().min(1, 'Nepali label is required').max(150),
   labelEn: z.string().min(1, 'English label is required').max(150),
-  media: cloudinaryFile,
+  media: cloudinaryFile.nullable(),
   thumbnail: cloudinaryFile.nullable(),
   isVideo: z.boolean(),
+  isYoutube: z.boolean(),
+  youtubeId: youtubeId.nullable(),
   col: z.string().max(20),
   row: z.string().max(20),
   order: z.number().int(),
   status,
-}).refine((d) => !d.isVideo || d.thumbnail !== null, {
+}).refine((d) => d.isYoutube || d.media !== null, {
+  message: 'Media is required',
+  path: ['media'],
+}).refine((d) => !d.isYoutube || d.youtubeId !== null, {
+  message: 'A valid YouTube link is required',
+  path: ['youtubeId'],
+}).refine((d) => d.isYoutube || !d.isVideo || d.thumbnail !== null, {
   message: 'Thumbnail is required for video items',
   path: ['thumbnail'],
 });
@@ -155,9 +165,11 @@ export const galleryItemPatchSchema = z.object({
   category: z.string().min(1).optional(),
   labelNp: z.string().min(1).max(150).optional(),
   labelEn: z.string().min(1).max(150).optional(),
-  media: cloudinaryFile.optional(),
+  media: cloudinaryFile.nullable().optional(),
   thumbnail: cloudinaryFile.nullable().optional(),
   isVideo: z.boolean().optional(),
+  isYoutube: z.boolean().optional(),
+  youtubeId: youtubeId.nullable().optional(),
   col: z.string().max(20).optional(),
   row: z.string().max(20).optional(),
   order: z.number().int().optional(),
