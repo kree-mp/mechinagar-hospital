@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { GalleryCategory, GalleryItem } from '@/lib/db/models';
+import { youtubeThumbnailUrl } from '@/lib/utils/youtube';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,7 @@ export async function GET() {
     GalleryItem.find({ deletedAt: null, status: 'published' })
       .sort({ order: 1, createdAt: 1 })
       .populate<{ category: { slug: string } }>('category', 'slug')
-      .select('labelNp labelEn media thumbnail isVideo col row order category')
+      .select('labelNp labelEn media thumbnail isVideo isYoutube youtubeId col row order category')
       .lean(),
   ]);
 
@@ -29,9 +30,13 @@ export async function GET() {
       id: i._id.toString(),
       labelNp: i.labelNp,
       labelEn: i.labelEn,
-      mediaUrl: i.media.url,
-      thumbnailUrl: i.thumbnail?.url ?? null,
+      mediaUrl: i.media?.url ?? null,
+      thumbnailUrl: i.isYoutube && i.youtubeId
+        ? youtubeThumbnailUrl(i.youtubeId)
+        : (i.thumbnail?.url ?? null),
       isVideo: i.isVideo,
+      isYoutube: i.isYoutube,
+      youtubeId: i.youtubeId ?? null,
       col: i.col,
       row: i.row,
       categorySlug: (i.category as unknown as { slug: string }).slug,
