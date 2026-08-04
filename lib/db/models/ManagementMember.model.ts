@@ -59,7 +59,7 @@ const managementMemberSchema = new Schema<
 
 managementMemberSchema.index({ role: 1, order: 1 });
 
-// Enforce at most one active chief, president, and vp at any time
+// Enforce at most one active chief, president, and vp at any time.
 managementMemberSchema.pre('save', async function () {
   if (!this.isModified('role')) return;
   if (!SINGLETON_ROLES.includes(this.role as SingletonRole)) return;

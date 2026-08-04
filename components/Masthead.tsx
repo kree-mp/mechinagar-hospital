@@ -33,8 +33,8 @@ export default function Masthead() {
         <Image
           width={500}
           height={500}
-          src={"/img/header/mechinagar-hospital-logo.png"}
-          alt="Mechinagar Hospital Logo"
+          src={"/img/header/emblem.svg"}
+          alt="Government Emblem of Nepal"
           className="h-full w-full object-contain" 
           draggable={false}
         />

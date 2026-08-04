@@ -12,6 +12,8 @@ export { Download } from './Download.model';
 export { NewsEvent } from './NewsEvent.model';
 export { GalleryCategory } from './GalleryCategory.model';
 export { GalleryItem } from './GalleryItem.model';
+export { ServiceCategory } from './ServiceCategory.model';
+export { Service } from './Service.model';
 export { RateLimit } from './RateLimit.model';
 
 // Types
@@ -29,6 +31,8 @@ export type { IDownload } from './Download.model';
 export type { INewsEvent } from './NewsEvent.model';
 export type { IGalleryCategory } from './GalleryCategory.model';
 export type { IGalleryItem } from './GalleryItem.model';
+export type { IServiceCategory } from './ServiceCategory.model';
+export type { IService } from './Service.model';
 export type { IRateLimit } from './RateLimit.model';
 
 // Shared types

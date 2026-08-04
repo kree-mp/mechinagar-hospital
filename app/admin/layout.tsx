@@ -11,7 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <QueryProvider>
       <div className="flex min-h-screen bg-gray-50">
         <Sidebar email={session.email} role={session.role} />
-        <main className="flex-1 min-w-0 overflow-y-auto">{children}</main>
+        <main className="flex-1 min-w-0 h-screen overflow-y-auto">{children}</main>
       </div>
     </QueryProvider>
   );

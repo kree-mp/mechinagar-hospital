@@ -1,12 +1,12 @@
 import { connectDB } from "@/lib/db/connection";
-import { ManagementMember } from "@/lib/db/models";
+import { ManagementMember, type ManagementRole } from "@/lib/db/models";
 import {
   ManagementCommitteeTitle,
   ChiefRoleLabel,
   CommitteeSectionLabel,
 } from "@/components/ManagementCommitteeHeadings";
 
-const LEAD_ROLES = ["president", "vp"];
+const LEAD_ROLES: ManagementRole[] = ["president", "vp"];
 
 async function getManagement() {
   await connectDB();
@@ -16,7 +16,7 @@ async function getManagement() {
     .lean();
   return {
     chief: members.find((m) => m.role === "chief") ?? null,
-    committee: members.filter((m) => m.role !== "chief"),
+    committee: members.filter((m) => m.role !== "vp"),
   };
 }
 

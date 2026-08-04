@@ -106,6 +106,33 @@ export const downloadSchema = z.object({
 
 export const downloadPatchSchema = downloadSchema.partial();
 
+// ── Services ──────────────────────────────────────────────────────────────────
+
+export const serviceCategorySchema = z.object({
+  nameNp: z.string().min(1, 'Name (Nepali) is required').max(150),
+  nameEn: z.string().min(1, 'Name (English) is required').max(150),
+  badge: z.string().max(40),
+  availability: z.string().max(80).nullable(),
+  availabilityEn: z.string().max(80).nullable(),
+  desc: z.string().max(1000).nullable(),
+  descEn: z.string().max(1000).nullable(),
+  inDepartments: z.boolean(),
+  order: z.number().int(),
+  status,
+});
+
+export const serviceCategoryPatchSchema = serviceCategorySchema.partial();
+
+export const serviceSchema = z.object({
+  titleNp: z.string().min(1, 'Title (Nepali) is required').max(150),
+  titleEn: z.string().min(1, 'Title (English) is required').max(150),
+  category: z.string().min(1, 'Category is required'),
+  order: z.number().int(),
+  status,
+});
+
+export const servicePatchSchema = serviceSchema.partial();
+
 // ── News & Events ──────────────────────────────────────────────────────────────
 
 export const newsEventSchema = z.object({
@@ -186,6 +213,8 @@ export type NoticeCategoryInput = z.infer<typeof noticeCategorySchema>;
 export type NoticeInput = z.infer<typeof noticeSchema>;
 export type DownloadCategoryInput = z.infer<typeof downloadCategorySchema>;
 export type DownloadInput = z.infer<typeof downloadSchema>;
+export type ServiceCategoryInput = z.infer<typeof serviceCategorySchema>;
+export type ServiceInput = z.infer<typeof serviceSchema>;
 export type NewsEventInput = z.infer<typeof newsEventSchema>;
 export type GalleryCategoryInput = z.infer<typeof galleryCategorySchema>;
 export type GalleryItemInput = z.infer<typeof galleryItemSchema>;

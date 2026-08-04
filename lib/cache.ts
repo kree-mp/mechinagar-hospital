@@ -23,6 +23,8 @@ const PUBLIC_TARGETS = {
   notices: ['/api/public/notices', ['/notices/[id]', 'page']],
   // ReportsPublications section → client-fetched API route
   downloads: ['/api/public/downloads'],
+  // Services sections (What We Offer + Available Health Services) → client-fetched API route
+  services: ['/api/public/services'],
   // NewsEvents (list) → client-fetched API route + every news detail page
   newsEvents: ['/api/public/news-events', ['/news/[slug]', 'page']],
 } satisfies Record<string, RevalidateTarget[]>;

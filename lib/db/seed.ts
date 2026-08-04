@@ -1,5 +1,5 @@
 import { connectDB } from "./connection.js";
-import { User, StaffCategory, Staff, NoticeCategory, Notice, ManagementMember, DownloadCategory } from "./models/index.js";
+import { User, StaffCategory, Staff, NoticeCategory, Notice, ManagementMember, DownloadCategory, ServiceCategory, Service } from "./models/index.js";
 import mongoose from "mongoose";
 
 // ─── Admin user ───────────────────────────────────────────────────────────────
@@ -243,6 +243,76 @@ async function seedDownloadCategories(adminId: mongoose.Types.ObjectId) {
   console.log(`Download categories seeded: ${result.length}`);
 }
 
+// ─── Services (categories + offers) ────────────────────────────────────────────
+
+const SERVICE_CATEGORIES = [
+  { nameNp: "आकस्मिक सेवा",     nameEn: "Emergency",                badge: "EMERGENCY",     availability: "२४ घण्टा",   availabilityEn: "24 hours",  desc: "गम्भीर तथा आकस्मिक अवस्थाका बिरामीहरूका लागि सघन तथा द्रुत स्वास्थ्य सेवा।",       descEn: "Intensive and rapid healthcare service for patients in serious and emergency conditions.", inDepartments: true,  order: 0 },
+  { nameNp: "बहिरंग सेवा",       nameEn: "Outpatient Department",   badge: "OPD",           availability: "बिहान ९:०० – साँझ ५:००", availabilityEn: "9:00 AM – 5:00 PM", desc: "सामान्य स्वास्थ्य समस्याका लागि दैनिक बहिरंग जाँच तथा परामर्श सेवा।",         descEn: "Daily outpatient check-up and consultation service for general health issues.",        inDepartments: true,  order: 1 },
+  { nameNp: "भर्ना सेवा",        nameEn: "Inpatient Department",    badge: "IPD",           availability: "१५ शय्या",  availabilityEn: "15 beds",  desc: "नजिकबाट निरीक्षण तथा हेरचाह आवश्यक पर्ने बिरामीका लागि भर्ना सेवा।",                 descEn: "Admission service for patients requiring close observation and care.",              inDepartments: true,  order: 2 },
+  { nameNp: "प्रयोगशाला सेवा",   nameEn: "Laboratory",              badge: "LABORATORY",    availability: "दैनिक सेवा", availabilityEn: "Daily service", desc: "रोग पहिचानका लागि आवश्यक प्रयोगशाला परीक्षणहरू।",                                  descEn: "Necessary laboratory tests for disease diagnosis.",                                   inDepartments: true,  order: 3 },
+  { nameNp: "एक्स-रे सेवा",       nameEn: "X-Ray",                   badge: "X-RAY",         availability: "२४ घण्टा",   availabilityEn: "24 hours",  desc: "हड्डी तथा छाती सम्बन्धी समस्याको पहिचानका लागि एक्स-रे सेवा।",                        descEn: "X-ray service for diagnosing bone and chest-related issues.",                        inDepartments: true,  order: 4 },
+  { nameNp: "अल्ट्रासाउन्ड",     nameEn: "Ultrasound",              badge: "USG",           availability: "बिहान ९ – दिउँसो २", availabilityEn: "9 AM – 2 PM", desc: "गर्भावस्था तथा पेट सम्बन्धी जाँचका लागि USG सेवा।",                                     descEn: "USG service for pregnancy and abdominal examinations.",                                inDepartments: true,  order: 5 },
+  { nameNp: "ECG सेवा",           nameEn: "ECG",                     badge: "ECG",           availability: "२४ घण्टा",   availabilityEn: "24 hours",  desc: "मुटुको चाल पहिचान गर्नका लागि ECG परीक्षण सेवा।",                                     descEn: "ECG test service for identifying heart rhythm.",                                       inDepartments: true,  order: 6 },
+  { nameNp: "फार्मेसी",           nameEn: "Pharmacy",                badge: "PHARMACY",      availability: "२४ घण्टा",   availabilityEn: "24 hours",  desc: "सुलभ मूल्यमा आवश्यक औषधि उपलब्ध गराउने सेवा।",                                        descEn: "Service providing necessary medicines at affordable prices.",                        inDepartments: true,  order: 7 },
+  { nameNp: "निःशुल्क सेवाहरू",   nameEn: "Free Services",           badge: "FREE SERVICES", availability: null,          availabilityEn: null,        desc: "सुरक्षित मातृत्व, खोप तथा परिवार नियोजन सेवा निःशुल्क उपलब्ध।",                          descEn: "Safe motherhood, vaccination and family planning services available free of cost.", inDepartments: false, order: 8 },
+];
+
+const SERVICE_OFFERS: Record<string, Array<{ titleNp: string; titleEn: string }>> = {
+  "Emergency":   [{ titleNp: "प्राथमिक उपचार", titleEn: "First aid" }, { titleNp: "आकस्मिक व्यवस्थापन", titleEn: "Emergency management" }, { titleNp: "रेफरल सेवा", titleEn: "Referral service" }],
+  "Outpatient Department": [{ titleNp: "सामान्य जाँच", titleEn: "General check-up" }, { titleNp: "परामर्श", titleEn: "Consultation" }, { titleNp: "औषधि सिफारिस", titleEn: "Medicine recommendation" }],
+  "Inpatient Department":  [{ titleNp: "शय्या व्यवस्था", titleEn: "Bed arrangement" }, { titleNp: "नियमित अनुगमन", titleEn: "Regular monitoring" }, { titleNp: "नर्सिङ् हेरचाह", titleEn: "Nursing care" }],
+  "Laboratory":  [{ titleNp: "रक्त परीक्षण", titleEn: "Blood test" }, { titleNp: "पिसाब परीक्षण", titleEn: "Urine test" }, { titleNp: "दिसा परीक्षण", titleEn: "Stool test" }, { titleNp: "अन्य आवश्यक परीक्षण", titleEn: "Other necessary tests" }],
+  "X-Ray":       [{ titleNp: "डिजिटल एक्स-रे", titleEn: "Digital X-ray" }],
+  "Ultrasound":  [{ titleNp: "गर्भावस्था जाँच", titleEn: "Pregnancy check-up" }, { titleNp: "उदर परीक्षण", titleEn: "Abdominal examination" }],
+  "ECG":         [{ titleNp: "मुटु परीक्षण", titleEn: "Cardiac test" }],
+  "Pharmacy":    [{ titleNp: "औषधि वितरण", titleEn: "Medicine distribution" }, { titleNp: "परामर्श", titleEn: "Consultation" }],
+  "Free Services": [],
+};
+
+async function seedServiceCategories(adminId: mongoose.Types.ObjectId) {
+  const existing = await ServiceCategory.countDocuments({ deletedAt: null });
+  if (existing > 0) {
+    console.log(`Service categories already seeded (${existing} found), skipping.`);
+    return;
+  }
+
+  const docs = SERVICE_CATEGORIES.map((c) => ({
+    ...c,
+    createdBy: adminId, updatedBy: null, status: "published" as const,
+    publishedBy: adminId, scheduledAt: null, deletedAt: null, deletedBy: null,
+  }));
+  const result = await ServiceCategory.insertMany(docs);
+  console.log(`Service categories seeded: ${result.length}`);
+  return result;
+}
+
+async function seedServices(
+  categories: Array<{ _id: mongoose.Types.ObjectId; nameEn: string }>,
+  adminId: mongoose.Types.ObjectId,
+) {
+  const existing = await Service.countDocuments({ deletedAt: null });
+  if (existing > 0) {
+    console.log(`Services already seeded (${existing} found), skipping.`);
+    return;
+  }
+
+  const categoryMap = Object.fromEntries(
+    categories.map((c) => [c.nameEn, c._id]),
+  ) as Record<string, mongoose.Types.ObjectId>;
+
+  const docs = Object.entries(SERVICE_OFFERS).flatMap(([nameEn, offers]) =>
+    offers.map((o, idx) => ({
+      titleNp: o.titleNp, titleEn: o.titleEn, category: categoryMap[nameEn],
+      order: idx,
+      createdBy: adminId, updatedBy: null, status: "published" as const,
+      publishedBy: adminId, scheduledAt: null, deletedAt: null, deletedBy: null,
+    }))
+  );
+
+  const result = await Service.insertMany(docs);
+  console.log(`Services seeded: ${result.length}`);
+}
+
 // ─── Entry point ──────────────────────────────────────────────────────────────
 
 const seedData = async () => {
@@ -256,6 +326,8 @@ const seedData = async () => {
     await seedNotices(noticeCategories as Array<{ _id: mongoose.Types.ObjectId; slug: string }>, adminId);
     await seedManagement(adminId);
     await seedDownloadCategories(adminId);
+    const serviceCategories = await seedServiceCategories(adminId);
+    await seedServices(serviceCategories as Array<{ _id: mongoose.Types.ObjectId; nameEn: string }>, adminId);
 
     console.log("Seed complete.");
   } catch (error) {

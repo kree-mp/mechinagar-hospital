@@ -7,7 +7,7 @@ export const hospital = {
   ministryEn: "Operated by Mechinagar Municipality · Health Branch",
   phone: "०२३-५९१४५९",
   phoneEn: "023-591459",
-  email: "dhulabariphc.gov.np@gmail.com",
+  email: "mechinagarbasichospital.gov.np@gmail.com",
   emergencyShort: "१०२",
   emergencyShortEn: "102",
   emergencyFull: "०२३-५९१४५९",
@@ -109,7 +109,7 @@ export interface Statistic {
 
 export const statistics: Statistic[] = [
   { value: "१५", np: "शय्या क्षमता", en: "BEDS" },
-  { value: "३५", np: "चिकित्सक तथा कर्मचारी", en: "STAFF" },
+  { value: "५२", np: "चिकित्सक तथा कर्मचारी", en: "STAFF" },
   { value: "८", np: "स्वास्थ्य सेवा एकाइ", en: "SERVICE UNITS" },
   { value: "११", np: "व्यवस्थापन समिति सदस्य", en: "COMMITTEE" },
 ];
