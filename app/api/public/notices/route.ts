@@ -22,7 +22,7 @@ export async function GET() {
     $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }],
   })
     .sort({ createdAt: -1 })
-    .select('title refNumber category publishedAt createdAt file')
+    .select('title refNumber category publishedAt createdAt file coverPhoto')
     .lean({ virtuals: true });
 
   const NOTICE_NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
@@ -39,6 +39,7 @@ export async function GET() {
       title: n.title,
       refNumber: n.refNumber,
       fileUrl: n.file?.url ?? null,
+      coverPhotoUrl: n.coverPhoto?.url ?? null,
       day: date ? formatBsDay(date) : '–',
       mon: date ? formatBsMonth(date) : '–',
       isNew: date ? date.getTime() > now - NOTICE_NEW_WINDOW_MS : false,

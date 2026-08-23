@@ -19,6 +19,7 @@ export interface INotice
   body: string | null;
   category: Types.ObjectId;
   file: CloudinaryFile | null;
+  coverPhoto: CloudinaryFile | null;
   expiresAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
@@ -59,6 +60,7 @@ const noticeSchema = new Schema<
       index: true,
     },
     file: { type: cloudinarySchema, default: null },
+    coverPhoto: { type: cloudinarySchema, default: null },
     // After this date the notice is considered expired; a cron job sets status → archived
     expiresAt: { type: Date, default: null },
   },

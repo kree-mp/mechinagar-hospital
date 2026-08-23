@@ -28,7 +28,7 @@ export default async function NoticePage({ params }: PageProps) {
   await connectDB();
 
   const n = await Notice.findOne({ _id: id, deletedAt: null, status: 'published' })
-    .select('title refNumber body category publishedAt createdAt file')
+    .select('title refNumber body category publishedAt createdAt file coverPhoto')
     .lean({ virtuals: false });
 
   if (!n) notFound();
@@ -88,34 +88,31 @@ export default async function NoticePage({ params }: PageProps) {
             </div>
           )}
 
-          {n.file?.url && (
+          {n.coverPhoto?.url && (
             <div className="mt-7 border-t border-[#eef0f3] pt-6">
               <div className="overflow-hidden rounded-md border border-[#e4e7ec] bg-[#f0f2f5]">
-                {n.file.format === 'pdf' ? (
-                  <iframe
-                    src={n.file.url}
-                    title={n.title}
-                    className="h-[75vh] w-full min-h-[480px]"
-                  />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={n.file.url}
-                    alt={n.title}
-                    className="h-auto w-full object-contain"
-                  />
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={n.coverPhoto.url}
+                  alt={n.title}
+                  className="h-auto w-full object-contain"
+                />
               </div>
+            </div>
+          )}
+
+          {n.file?.url && (
+            <div className="mt-7 border-t border-[#eef0f3] pt-6">
               <a
                 href={n.file.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-np mt-5 inline-flex items-center gap-2 rounded-lg bg-[#0F4C75] px-5 py-3 text-[14px] font-semibold text-white hover:bg-[#0d3f62]"
+                className="font-np inline-flex items-center gap-2 rounded-lg bg-[#0F4C75] px-5 py-3 text-[14px] font-semibold text-white hover:bg-[#0d3f62]"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                 </svg>
-                संलग्न फाइल डाउनलोड गर्नुहोस्
+                संलग्न फाइल हेर्नुहोस्
               </a>
             </div>
           )}

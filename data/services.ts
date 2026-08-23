@@ -8,7 +8,7 @@ export interface Service {
   color: string;
 }
 
-export const services: Service[] = [
+export const services: Service[] = [ 
   { np: "आकस्मिक सेवा", nameEn: "Emergency Service", en: "EMERGENCY", desc: "प्राथमिक उपचार, आकस्मिक व्यवस्थापन र रेफरल सेवा — २४ घण्टा उपलब्ध।", descEn: "First aid, emergency management and referral service — available 24 hours.", tint: "#E7F1FB", color: "#0F4C75" },
   { np: "बहिरंग सेवा", nameEn: "Outpatient Service", en: "OPD", desc: "बिहान ९:०० देखि साँझ ५:०० सम्म दैनिक बहिरंग उपचार सेवा।", descEn: "Daily outpatient treatment service from 9:00 AM to 5:00 PM.", tint: "#EAF4FC", color: "#3282B8" },
   { np: "भर्ना सेवा", nameEn: "Inpatient Service", en: "IPD", desc: "१५ शय्या क्षमतासहितको भर्ना तथा हेरचाह सेवा।", descEn: "Admission and care service with a capacity of 15 beds.", tint: "#EAF4FC", color: "#3282B8" },

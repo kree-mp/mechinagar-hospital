@@ -14,7 +14,7 @@ import { Field, inputCls, selectCls, textareaCls } from '../_components/ui/Field
 import type { PublishStatus } from '@/lib/db/plugins/publishable.plugin';
 
 interface NoticeCategory { _id: string; labelNp: string; labelEn: string; slug: string; order: number; noticeCount: number; }
-interface Notice { _id: string; title: string; refNumber: string; body: string | null; category: string; status: PublishStatus; expiresAt: string | null; file: { url: string; publicId: string; format: string; bytes: number } | null; }
+interface Notice { _id: string; title: string; refNumber: string; body: string | null; category: string; status: PublishStatus; expiresAt: string | null; file: { url: string; publicId: string; format: string; bytes: number } | null; coverPhoto: { url: string; publicId: string; format: string; bytes: number } | null; }
 
 async function fetchCategories(): Promise<NoticeCategory[]> {
   const res = await fetch('/api/cms/notice-categories');
@@ -64,7 +64,7 @@ const NoticeForm = memo(function NoticeForm({
 }: { categoryId: string; defaultValues?: Partial<NoticeInput>; onSubmit: (d: NoticeInput) => void; loading: boolean; }) {
   const { register, handleSubmit, control, formState: { errors } } = useForm<NoticeInput>({
     resolver: zodResolver(noticeSchema),
-    defaultValues: { category: categoryId, status: 'draft', refNumber: '', body: null, file: null, expiresAt: null, ...defaultValues },
+    defaultValues: { category: categoryId, status: 'draft', refNumber: '', body: null, file: null, coverPhoto: null, expiresAt: null, ...defaultValues },
   });
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -89,7 +89,22 @@ const NoticeForm = memo(function NoticeForm({
       <Field label="Expires At (optional)">
         <input {...register('expiresAt')} type="datetime-local" className={inputCls} />
       </Field>
-      <Field label="Attachment (optional)">
+      <Field label="Cover Photo (optional)">
+        <Controller
+          control={control}
+          name="coverPhoto"
+          render={({ field }) => (
+            <FileUpload
+              value={field.value ?? null}
+              onChange={field.onChange}
+              accept="image/*"
+              folder="mechinagar-notices"
+              label="Upload cover photo"
+            />
+          )}
+        />
+      </Field>
+      <Field label="Attachment (PDF)">
         <Controller
           control={control}
           name="file"
@@ -97,9 +112,9 @@ const NoticeForm = memo(function NoticeForm({
             <FileUpload
               value={field.value ?? null}
               onChange={field.onChange}
-              accept="application/pdf,image/*"
+              accept="application/pdf"
               folder="mechinagar-notices"
-              label="Upload attachment"
+              label="Upload PDF attachment"
             />
           )}
         />
@@ -197,11 +212,20 @@ const CategoryRow = memo(function CategoryRow({
             <div className="divide-y divide-gray-50">
               {notices.map((n) => (
                 <div key={n._id} className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50/60 transition-colors">
+                  {n.coverPhoto ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={n.coverPhoto.url} alt="" className="w-12 h-12 rounded-lg object-cover border border-gray-200 shrink-0" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v13.5a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V10.5zm3.75 0h.008v.008h-.008V10.5z" /></svg>
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{n.title}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       {n.refNumber && <span className="text-xs text-gray-400">{n.refNumber}</span>}
-                      {n.file && <span className="text-xs text-blue-500 flex items-center gap-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" /></svg>Attached</span>}
+                      {n.coverPhoto && <span className="text-xs text-green-500 flex items-center gap-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v13.5a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V10.5zm3.75 0h.008v.008h-.008V10.5z" /></svg>Cover</span>}
+                      {n.file && <span className="text-xs text-blue-500 flex items-center gap-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" /></svg>PDF</span>}
                     </div>
                   </div>
                   <StatusBadge status={n.status} />

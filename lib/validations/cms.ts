@@ -80,6 +80,7 @@ export const noticeSchema = z.object({
   body: z.string().nullable(),
   category: z.string().min(1, 'Category is required'),
   file: cloudinaryFile.nullable(),
+  coverPhoto: cloudinaryFile.nullable(),
   expiresAt: nullableDatetime,
   status,
 });
